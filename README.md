@@ -155,7 +155,7 @@
     FROM Artist AS A 
     LEFT JOIN Track AS T 
             ON A.ArtistID=T.ArtistID 
-    GROUP BY A.Name 
+    GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
 
@@ -177,7 +177,7 @@
     FROM Artist AS A 
     LEFT JOIN Genre AS G LEFT JOIN Track AS T 
             ON T.GenreID=G.GenreID AND G.Name='Pop' ON A.ArtistID=T.ArtistID 
-    GROUP BY A.Name 
+    GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
 
