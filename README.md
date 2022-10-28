@@ -85,7 +85,7 @@
 
 - Which artists did not record any tracks of the "Pop" Genre type?
     ```
-    SELECT A.Name FROM Artist AS A LEFT JOIN Track AS T ON A.ArtistID=T.ArtistID GROUP BY A.Name HAVING COUNT(T.ArtistID) = 0;
+    SELECT A.Name FROM Artist AS A LEFT JOIN Genre AS G LEFT JOIN Track AS T ON T.GenreID=G.GenreID AND G.Name='Pop' ON A.ArtistID=T.ArtistID GROUP BY A.Name HAVING COUNT(T.ArtistID) = 0;
     ```
 
     <img src="Images/7.png"></img>
