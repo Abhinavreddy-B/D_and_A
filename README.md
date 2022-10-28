@@ -32,6 +32,17 @@
     );
     ```
 
+    `Approach 1`:
+    * Select everything from Track
+    * arrange in descending order of milliseconds
+    * limit the output to 1 row , i.e the first row (i.e having highest milliseconds)
+
+    `Approach 2`:
+    * Select maximum milliseconds from track
+    * print all rows of table Track where milliseconds is = maximum 
+    
+    <br>
+
     <img src="Images/1.png"></img>
 
 <hr>
@@ -46,6 +57,13 @@
     WHERE Nationality='Indian' 
         	AND A.ListenerID=B.ListenerID;
     ```
+
+    `Approach`:
+    * select only Nationality=Indian From Listener table
+    * use brint ListeningTo table with ListenerID as a Foreign key
+    * Count the Number of distinct track
+
+    <br>
 
     <img src="Images/2.png"></img>
 
@@ -65,6 +83,14 @@
     LIMIT 1;
     ```
 
+    `Approach`:
+    * Select Tables Album And Track with AlbumID as foreign key.
+    * Group by AlbumID and Calculate the SUM of Bytes of a given album
+    * order by descending order of sum of bytes.
+    * limit the result to 1 to get the album of highest bytes
+
+    <br>
+
     <img src="Images/3.png"></img>
 
 <hr>
@@ -81,6 +107,14 @@
     ORDER BY SUM(LT.Milliseconds) ASC 
     LIMIT 1;
     ```
+
+    `Approach`:
+    * Select Listener and ListeningTo using ListenerID as Foreign key
+    * group By nationality
+    * Order by the sum of "Time" for a given nationality
+    * limit the result to 1 to get the nationality of lowest time.
+
+    <br>
 
     <img src="Images/4.png"></img>
 
@@ -104,6 +138,11 @@
     LIMIT 1;
     ```
 
+    `Approach`:
+    * Select * from Genre , Track , ListeningTo , Listener using Nationality, ListenerID,TrackID,GenreID as foreign keys.
+    * group by GenreID 
+    * order by the no of times the genre is appearing in the table (descending)
+    * limit to 1 , to get the most appeared genre
     <img src="Images/5.png"></img>
 
 <hr>
@@ -120,6 +159,12 @@
             HAVING COUNT(T.ArtistID) = 0;
     ```
 
+    `Approach`:
+    * select everything from Artist, Track using ArtistID as foreign key ( mandating every artist to appear using left join).
+    * group by the artist
+    * and print only artist having their count=0
+
+    <br>
     <img src="Images/6.png"></img>
 
 <hr>
