@@ -10,36 +10,36 @@
 
 <hr>
 
-## `Note:` All the below Are single line (No nested Queries) commands Written in multiple lines just for readability of user.
+## `Note:` All the queries are single line (no nested queries) commands written in multiple lines just for readability purposes.
 
 ## <ins>Query 1</ins>:
 
 - Which Track Has Longest Length?
 
     ```sql
-    SELECT * 
-    FROM Track 
-    ORDER BY Milliseconds DESC 
+    SELECT *
+    FROM Track
+    ORDER BY Milliseconds DESC
     LIMIT 1;
     ```
     (or)
     ```sql
-    SELECT * 
-    FROM Track 
-    WHERE Milliseconds = ( 
-        SELECT MAX(Milliseconds) 
+    SELECT *
+    FROM Track
+    WHERE Milliseconds = (
+        SELECT MAX(Milliseconds)
         FROM Track
     );
     ```
 
-    `Approach 1`:
-    * Select everything from Track
-    * arrange in descending order of milliseconds
-    * limit the output to 1 row , i.e the first row (i.e having highest milliseconds)
+- `Approach 1`:
+    - Select all columns from `Track`
+    - Arrange them in descending order of `Milliseconds`
+    - Limit the output to 1 row, i.e., the row having the highest value of `Milliseconds`
 
-    `Approach 2`:
-    * Select maximum milliseconds from track
-    * print all rows of table Track where milliseconds is = maximum 
+- `Approach 2`:
+    - Select maximum `Milliseconds` from `Track`
+    - Print all rows of the table `Track` where `Milliseconds` is the maximum
     
     <br>
 
@@ -51,17 +51,17 @@
 
 - How many audio tracks were listened to by the people of "Indian" nationality?
     ```sql
-    SELECT COUNT(DISTINCT TrackID) AS Count 
+    SELECT COUNT(DISTINCT TrackID) AS Count
     FROM Listener AS A,
-        	ListeningTo AS B 
-    WHERE Nationality='Indian' 
+        	ListeningTo AS B
+    WHERE A.Nationality='Indian'
         	AND A.ListenerID=B.ListenerID;
     ```
 
-    `Approach`:
-    * select only Nationality=Indian From Listener table
-    * use brint ListeningTo table with ListenerID as a Foreign key
-    * Count the Number of distinct track
+- `Approach`:
+    - Select only `Nationality` = "Indian" From `Listener` table
+    - Select all the appropriate rows in the `ListeningTo` table with `ListenerID` as a foreign key
+    - Count the number of distinct tracks
 
     <br>
 
@@ -73,21 +73,21 @@
 
 - Which album takes up the maximum space?
     ```sql
-    SELECT A.*, 
-            SUM(Bytes) AS Size 
+    SELECT A.*,
+            SUM(Bytes) AS Size
     FROM Album AS A,
-            Track AS T 
-    WHERE A.AlbumID=T.AlbumID 
-    GROUP BY A.AlbumID 
-    ORDER BY Size DESC 
+            Track AS T
+    WHERE A.AlbumID=T.AlbumID
+    GROUP BY A.AlbumID
+    ORDER BY Size DESC
     LIMIT 1;
     ```
 
-    `Approach`:
-    * Select Tables Album And Track with AlbumID as foreign key.
-    * Group by AlbumID and Calculate the SUM of Bytes of a given album
-    * order by descending order of sum of bytes.
-    * limit the result to 1 to get the album of highest bytes
+- `Approach`:
+    - Select tables `Album` and `Track` with AlbumID as foreign key.
+    - Group by `AlbumID` and calculate the sum of `Bytes` of a given album
+    - Order the selected rows in the descending order of sum of bytes.
+    - Limit the selected rows to be displayed to 1 to get the album of highest bytes, i.e., maximum space
 
     <br>
 
@@ -99,20 +99,20 @@
 
 - Which nationality listens to music the least?
     ```sql
-    SELECT L.Nationality 
-    FROM Listener AS L, 
-            ListeningTo AS LT 
-    WHERE L.ListenerID=LT.ListenerID 
-    GROUP BY L.Nationality 
-    ORDER BY SUM(LT.Milliseconds) ASC 
+    SELECT L.Nationality
+    FROM Listener AS L,
+            ListeningTo AS LT
+    WHERE L.ListenerID=LT.ListenerID
+    GROUP BY L.Nationality
+    ORDER BY SUM(LT.Milliseconds) ASC
     LIMIT 1;
     ```
 
-    `Approach`:
-    * Select Listener and ListeningTo using ListenerID as Foreign key
-    * group By nationality
-    * Order by the sum of "Time" for a given nationality
-    * limit the result to 1 to get the nationality of lowest time.
+- `Approach`:
+    - Select `Listener` and `ListeningTo` using `ListenerID` as Foreign key
+    - Group by `Nationality`
+    - Order by the sum of `Time` for a given nationality
+    - Limit the selected rows to be displayed to 1 to get the nationality having lowest listening time.
 
     <br>
 
@@ -124,25 +124,28 @@
 
 - Which genre is listened to by the most people among "Americans"?
     ```sql
-    SELECT G.* 
-    FROM Genre AS G, 
-            Track AS T, 
-            ListeningTo AS LT, 
-            Listener AS L 
-    WHERE L.Nationality='American' 
-            AND L.ListenerID=LT.ListenerID 
-            AND LT.TrackID=T.TrackID 
-            AND T.GenreID=G.GenreID 
-    GROUP BY G.GenreID 
-    ORDER BY COUNT(*) DESC 
+    SELECT G.*
+    FROM Genre AS G,
+            Track AS T,
+            ListeningTo AS LT,
+            Listener AS L
+    WHERE L.Nationality='American'
+            AND L.ListenerID=LT.ListenerID
+            AND LT.TrackID=T.TrackID
+            AND T.GenreID=G.GenreID
+    GROUP BY G.GenreID
+    ORDER BY COUNT(*) DESC
     LIMIT 1;
     ```
 
-    `Approach`:
-    * Select * from Genre , Track , ListeningTo , Listener using Nationality, ListenerID,TrackID,GenreID as foreign keys.
-    * group by GenreID 
-    * order by the no of times the genre is appearing in the table (descending)
-    * limit to 1 , to get the most appeared genre
+- `Approach`:
+    - Select all columns in `Genre` from `Genre`, `Track`, `ListeningTo` and `Listener` tables using `Nationality`, `ListenerID`, `TrackID`, `GenreID` as foreign keys.
+    - Group them using `GenreID` 
+    - Order them by the number of times each genre is appearing in the table from highest to lowest, i.e., descending order
+    - Limit the selected rows to be displayed to 1 to get the genre that appeared the most number of times
+
+    <br>
+
     <img src="Images/5.png"></img>
 
 <hr>
@@ -151,20 +154,21 @@
 
 - Which artist did not make any albums at all?
     ```sql
-    SELECT A.Name 
-    FROM Artist AS A 
-    LEFT JOIN Track AS T 
-            ON A.ArtistID=T.ArtistID 
+    SELECT A.*
+    FROM Artist AS A
+    LEFT JOIN Track AS T
+            ON A.ArtistID=T.ArtistID
     GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
 
-    `Approach`:
-    * select everything from Artist, Track using ArtistID as foreign key ( mandating every artist to appear using left join).
-    * group by the artist
-    * and print only artist having their count=0
+- `Approach`:
+    - Select all columns in `Artist` from `Artist` and `Track` using `ArtistID` as foreign key (mandating every artist to appear using left join).
+    - Group by `ArtistID`
+    - Print all artists who have `0` rows in the `Track` table, which can be obtained by using the condition `COUNT(T.ArtistID) = 0`
 
     <br>
+
     <img src="Images/6.png"></img>
 
 <hr>
@@ -173,13 +177,19 @@
 
 - Which artists did not record any tracks of the "Pop" Genre type?
     ```sql
-    SELECT A.Name 
-    FROM Artist AS A 
-    LEFT JOIN Genre AS G LEFT JOIN Track AS T 
-            ON T.GenreID=G.GenreID AND G.Name='Pop' ON A.ArtistID=T.ArtistID 
+    SELECT A.Name
+    FROM Artist AS A
+    LEFT JOIN Genre AS G LEFT JOIN Track AS T
+            ON T.GenreID=G.GenreID AND G.Name='Pop' ON A.ArtistID=T.ArtistID
     GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
+
+- `Approach`:
+	- Left Join the table `Genre` to `Track` where `GenreID` in `Genre` and `Track` tables are same and the `Genre` is `Pop` after which left join the `Artist` table to this table where `ArtistID` in both the tables are same
+	- Group by `ArtistID` and select the artists which did not appear in the first table 
+    
+    <br>
 
     <img src="Images/7.png"></img>
 
