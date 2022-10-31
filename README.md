@@ -17,10 +17,11 @@
 - Which Track Has Longest Length?
 
     ```sql
-    SELECT *
-    FROM Track
-    ORDER BY Milliseconds DESC
-    LIMIT 1;
+    SELECT T1.*
+    FROM Track AS T1
+    LEFT JOIN Track AS T2
+			ON T1.Milliseconds < T2.Milliseconds
+    WHERE T2.Milliseconds IS NULL;
     ```
     (or)
     ```sql
