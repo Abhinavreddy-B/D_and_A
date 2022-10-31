@@ -17,11 +17,10 @@
 - Which Track Has Longest Length?
 
     ```sql
-    SELECT T1.*
-    FROM Track AS T1
-    LEFT JOIN Track AS T2
-			ON T1.Milliseconds < T2.Milliseconds
-    WHERE T2.Milliseconds IS NULL;
+    SELECT *
+    FROM Track
+    ORDER BY Milliseconds
+    DESC LIMIT 1;
     ```
     (or)
     ```sql
@@ -32,6 +31,14 @@
         FROM Track
     );
     ```
+    (or)
+    ```sql
+    SELECT T1.*
+    FROM Track AS T1
+    LEFT JOIN Track AS T2
+			ON T1.Milliseconds < T2.Milliseconds
+    WHERE T2.Milliseconds IS NULL;
+    ```
 
 - `Approach 1`:
     - Select all columns from `Track`
@@ -41,6 +48,12 @@
 - `Approach 2`:
     - Select maximum `Milliseconds` from `Track`
     - Print all rows of the table `Track` where `Milliseconds` is the maximum
+
+- `Approach 3`:
+    - Left join the columns of the `Track` table to itself
+    - The right tuple denotes the tuples which have the value of the `Milliseconds` column greater than the left tuple
+    - The right tuple is `NULL` if there are no tuples on the left satisfying the condition
+    - These left tuples have the maximum value of the `Milliseconds` column and thus, these tuples are selected to be displayed in the output
     
     <br>
 
