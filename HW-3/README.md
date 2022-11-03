@@ -10,7 +10,7 @@
 
 <hr>
 
-## `Note:` All the queries are single line (no nested queries) commands written in multiple lines just for readability purposes.
+### `Note:` All the queries are single line (no nested queries, except `Query 7`) commands written in multiple lines just for readability purposes.
 
 ## <ins>Query 1</ins>:
 
@@ -21,15 +21,6 @@
     FROM Track
     ORDER BY Milliseconds
     DESC LIMIT 1;
-    ```
-    (or)
-    ```sql
-    SELECT *
-    FROM Track
-    WHERE Milliseconds = (
-        SELECT MAX(Milliseconds)
-        FROM Track
-    );
     ```
     (or)
     ```sql
@@ -46,10 +37,6 @@
     - Limit the output to 1 row, i.e., the row having the highest value of `Milliseconds`
 
 - `Approach 2`:
-    - Select maximum `Milliseconds` from `Track`
-    - Print all rows of the table `Track` where `Milliseconds` is the maximum
-
-- `Approach 3`:
     - Left join the columns of the `Track` table to itself
     - The right tuple denotes the tuples which have the value of the `Milliseconds` column greater than the left tuple
     - The right tuple is `NULL` if there are no tuples on the left satisfying the condition
@@ -66,10 +53,10 @@
 - How many audio tracks were listened to by the people of "Indian" nationality?
     ```sql
     SELECT COUNT(DISTINCT TrackID) AS Count
-    FROM Listener AS A,
-        	ListeningTo AS B
-    WHERE A.Nationality='Indian'
-        	AND A.ListenerID=B.ListenerID;
+    FROM Listener AS L,
+        	ListeningTo AS LT
+    WHERE L.Nationality = 'Indian'
+        	AND L.ListenerID = LT.ListenerID;
     ```
 
 - `Approach`:
@@ -90,7 +77,7 @@
     SELECT A.*
     FROM Album AS A,
             Track AS T
-    WHERE A.AlbumID=T.AlbumID
+    WHERE A.AlbumID = T.AlbumID
     GROUP BY A.AlbumID
     ORDER BY SUM(Bytes) DESC
     LIMIT 1;
@@ -115,7 +102,7 @@
     SELECT L.Nationality
     FROM Listener AS L,
             ListeningTo AS LT
-    WHERE L.ListenerID=LT.ListenerID
+    WHERE L.ListenerID = LT.ListenerID
     GROUP BY L.Nationality
     ORDER BY SUM(LT.Milliseconds) ASC
     LIMIT 1;
@@ -137,15 +124,15 @@
 
 - Which genre is listened to by the most people among "Americans"?
     ```sql
-    SELECT G.*
+    SELECT G.Name
     FROM Genre AS G,
             Track AS T,
             ListeningTo AS LT,
             Listener AS L
-    WHERE L.Nationality='American'
-            AND L.ListenerID=LT.ListenerID
-            AND LT.TrackID=T.TrackID
-            AND T.GenreID=G.GenreID
+    WHERE L.Nationality = 'American'
+            AND L.ListenerID = LT.ListenerID
+            AND LT.TrackID = T.TrackID
+            AND T.GenreID = G.GenreID
     GROUP BY G.GenreID
     ORDER BY COUNT(*) DESC
     LIMIT 1;
@@ -170,7 +157,7 @@
     SELECT A.*
     FROM Artist AS A
     LEFT JOIN Track AS T
-            ON A.ArtistID=T.ArtistID
+            ON A.ArtistID = T.ArtistID
     GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
@@ -192,8 +179,10 @@
     ```sql
     SELECT A.Name
     FROM Artist AS A
-    LEFT JOIN Genre AS G LEFT JOIN Track AS T
-            ON T.GenreID=G.GenreID AND G.Name='Pop' ON A.ArtistID=T.ArtistID
+    LEFT JOIN Genre AS G
+            (LEFT JOIN Track AS T
+                ON T.GenreID = G.GenreID AND G.Name = 'Pop')
+            ON A.ArtistID = T.ArtistID
     GROUP BY A.ArtistID
             HAVING COUNT(T.ArtistID) = 0;
     ```
