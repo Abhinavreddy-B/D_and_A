@@ -87,13 +87,12 @@
 
 - Which album takes up the maximum space?
     ```sql
-    SELECT A.*,
-            SUM(Bytes) AS Size
+    SELECT A.*
     FROM Album AS A,
             Track AS T
     WHERE A.AlbumID=T.AlbumID
     GROUP BY A.AlbumID
-    ORDER BY Size DESC
+    ORDER BY SUM(Bytes) DESC
     LIMIT 1;
     ```
 
