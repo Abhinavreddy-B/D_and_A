@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.29, for Linux (x86_64)
 --
--- Host: localhost    Database: Project4
+-- Host: localhost    Database: IPL_FANTASY_LEAGUE
 -- ------------------------------------------------------
 -- Server version       8.0.29
 
@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS `AWARDS`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `AWARDS` (
   `Prize_Money` int NOT NULL DEFAULT '100000',
-  `Name` varchar(40) NOT NULL,
+  `Name` varchar(20) NOT NULL,
   `AWARDED_IN` int NOT NULL,
   `AWARDED_TO` varchar(40) NOT NULL,
   PRIMARY KEY (`Name`,`AWARDED_IN`,`AWARDED_TO`),
   UNIQUE KEY `AWARDED_TO` (`AWARDED_TO`),
-  KEY `Awarded_In_LeagueFK` (`AWARDED_IN`),
-  CONSTRAINT `Awarded_In_LeagueFK` FOREIGN KEY (`AWARDED_IN`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE,
-  CONSTRAINT `Awarded_To_PlayerFK` FOREIGN KEY (`AWARDED_TO`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `AWARDS_AWARDED_IN_FK` (`AWARDED_IN`),
+  CONSTRAINT `AWARDS_AWARDED_IN_FK` FOREIGN KEY (`AWARDED_IN`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `AWARDS_AWARDED_TO_FK` FOREIGN KEY (`AWARDED_TO`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,10 +53,10 @@ DROP TABLE IF EXISTS `COMMENTATORS`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `COMMENTATORS` (
   `Date_Time` timestamp NOT NULL,
-  `Venue` varchar(30) NOT NULL,
+  `Venue` varchar(50) NOT NULL,
   `Commentators` varchar(30) NOT NULL,
   PRIMARY KEY (`Date_Time`,`Venue`,`Commentators`),
-  CONSTRAINT `COMMENTATORS_Date_Time_VenueFK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `COMMENTATORS_Date_Time_Venue_FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,9 +103,8 @@ DROP TABLE IF EXISTS `FORM`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `FORM` (
   `Fantasy_points` int NOT NULL DEFAULT '0',
-  `Form` decimal(3,1) NOT NULL,
-  PRIMARY KEY (`Fantasy_points`),
-  UNIQUE KEY `Form` (`Form`)
+  `Form` decimal(3,1) NOT NULL DEFAULT '0.0',
+  PRIMARY KEY (`Fantasy_points`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,8 +128,8 @@ CREATE TABLE `JERSEY` (
   `Jersey_Number` int NOT NULL,
   `BELONGS_TO` varchar(30) NOT NULL,
   PRIMARY KEY (`Jersey_Number`,`BELONGS_TO`),
-  KEY `BELONGS_TO_FK` (`BELONGS_TO`),
-  CONSTRAINT `BELONGS_TO_FK` FOREIGN KEY (`BELONGS_TO`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `JERSEY_BELONGS_TO_FK` (`BELONGS_TO`),
+  CONSTRAINT `JERSEY_BELONGS_TO_FK` FOREIGN KEY (`BELONGS_TO`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -180,7 +179,7 @@ DROP TABLE IF EXISTS `PARTNER`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `PARTNER` (
   `CIN` int NOT NULL,
-  `Name` varchar(50) DEFAULT NULL,
+  `Name` varchar(50) NOT NULL,
   PRIMARY KEY (`CIN`),
   UNIQUE KEY `CIN` (`CIN`),
   UNIQUE KEY `Name` (`Name`)
@@ -193,7 +192,6 @@ CREATE TABLE `PARTNER` (
 
 LOCK TABLES `PARTNER` WRITE;
 /*!40000 ALTER TABLE `PARTNER` DISABLE KEYS */;
-INSERT INTO `PARTNER` VALUES (1,'Hello'),(3,'Hello2');
 /*!40000 ALTER TABLE `PARTNER` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +207,7 @@ CREATE TABLE `PARTNER_TYPE` (
   `Type` varchar(40) NOT NULL,
   PRIMARY KEY (`CIN`,`Type`),
   UNIQUE KEY `CIN` (`CIN`),
-  CONSTRAINT `PART_TYPEFK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `PARTNER_TYPE_FK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -237,8 +235,10 @@ CREATE TABLE `PLAYER` (
   `Fantasy_points` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`Name`),
   UNIQUE KEY `Name` (`Name`),
-  KEY `FORMFK` (`Fantasy_points`),
-  CONSTRAINT `FORMFK` FOREIGN KEY (`Fantasy_points`) REFERENCES `FORM` (`Fantasy_points`)
+  KEY `PLAYER_Fantasy_points_FK` (`Fantasy_points`),
+  KEY `PLAYER_CName_FK` (`CName`),
+  CONSTRAINT `PLAYER_CName_FK` FOREIGN KEY (`CName`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `PLAYER_Fantasy_points_FK` FOREIGN KEY (`Fantasy_points`) REFERENCES `FORM` (`Fantasy_points`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -265,13 +265,13 @@ CREATE TABLE `PLAYS_FOR_IN_OF` (
   `Venue` varchar(50) NOT NULL,
   `Season_Number` int NOT NULL,
   PRIMARY KEY (`PName`,`TName`,`Date_Time`,`Venue`,`Season_Number`),
-  KEY `TName_FK` (`TName`),
-  KEY `Date_Time_Venue_FK` (`Date_Time`,`Venue`),
-  KEY `Season_Number_FK` (`Season_Number`),
-  CONSTRAINT `Date_Time_Venue_FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `PName_FK` FOREIGN KEY (`PName`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Season_Number_FK` FOREIGN KEY (`Season_Number`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `TName_FK` FOREIGN KEY (`TName`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `PLAYS_FOR_IN_OF_TName_FK` (`TName`),
+  KEY `PLAYS_FOR_IN_OF_Date_Time_Venue_FK` (`Date_Time`,`Venue`),
+  KEY `PLAYS_FOR_IN_OF_Season_Number_FK` (`Season_Number`),
+  CONSTRAINT `PLAYS_FOR_IN_OF_Date_Time_Venue_FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `PLAYS_FOR_IN_OF_PName_FK` FOREIGN KEY (`PName`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `PLAYS_FOR_IN_OF_Season_Number_FK` FOREIGN KEY (`Season_Number`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `PLAYS_FOR_IN_OF_TName_FK` FOREIGN KEY (`TName`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -296,9 +296,9 @@ CREATE TABLE `PLAYS_IN` (
   `Date_Time` timestamp NOT NULL,
   `Venue` varchar(50) NOT NULL,
   PRIMARY KEY (`Name`,`Date_Time`,`Venue`),
-  KEY `PLAYS_INDate_Time_VenueFK` (`Date_Time`,`Venue`),
-  CONSTRAINT `PLAYS_IN_NameFK` FOREIGN KEY (`Name`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `PLAYS_INDate_Time_VenueFK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `PLAYS_IN_Date_Time_Venue_FK` (`Date_Time`,`Venue`),
+  CONSTRAINT `PLAYS_IN_Date_Time_Venue_FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `PLAYS_IN_Name_FK` FOREIGN KEY (`Name`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -322,9 +322,9 @@ CREATE TABLE `SPONSORS_LEAGUE` (
   `Number` int NOT NULL,
   `CIN` int NOT NULL,
   PRIMARY KEY (`Number`,`CIN`),
-  KEY `SPONSORS_LEAGUE_CINFK` (`CIN`),
-  CONSTRAINT `SPONSORS_LEAGUE_CINFK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `SPONSORS_LEAGUE_NumberFK` FOREIGN KEY (`Number`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `SPONSORS_LEAGUE_CIN_FK` (`CIN`),
+  CONSTRAINT `SPONSORS_LEAGUE_CIN_FK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `SPONSORS_LEAGUE_Number_FK` FOREIGN KEY (`Number`) REFERENCES `LEAGUE` (`Season_Number`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -348,9 +348,9 @@ CREATE TABLE `SPONSORS_PLAYER` (
   `Name` varchar(40) NOT NULL,
   `CIN` int NOT NULL,
   PRIMARY KEY (`Name`,`CIN`),
-  KEY `SPONSORS_PLAYER_CINFK` (`CIN`),
-  CONSTRAINT `SPONSORS_PLAYER_CINFK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `SPONSORS_PLAYER_NameFK` FOREIGN KEY (`Name`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `SPONSORS_PLAYER_CIN_FK` (`CIN`),
+  CONSTRAINT `SPONSORS_PLAYER_CIN_FK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `SPONSORS_PLAYER_Name_FK` FOREIGN KEY (`Name`) REFERENCES `PLAYER` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -374,9 +374,9 @@ CREATE TABLE `SPONSORS_TEAM` (
   `Name` varchar(30) NOT NULL,
   `CIN` int NOT NULL,
   PRIMARY KEY (`Name`,`CIN`),
-  KEY `SPONSORS_Team_CINFK` (`CIN`),
-  CONSTRAINT `SPONSORS_Team_CINFK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `SPONSORS_TEAM_NameFK` FOREIGN KEY (`Name`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `SPONSORS_Team_CIN_FK` (`CIN`),
+  CONSTRAINT `SPONSORS_Team_CIN_FK` FOREIGN KEY (`CIN`) REFERENCES `PARTNER` (`CIN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `SPONSORS_TEAM_Name_FK` FOREIGN KEY (`Name`) REFERENCES `TEAM` (`Name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -400,7 +400,7 @@ CREATE TABLE `TEAM` (
   `Place` varchar(20) NOT NULL,
   `RTM_Cards` int NOT NULL DEFAULT '0',
   `Money_Left` int NOT NULL DEFAULT '0',
-  `Brand_Value` int NOT NULL,
+  `Brand_Value` int NOT NULL DEFAULT '10000000',
   `Fair_play_points` decimal(5,2) NOT NULL DEFAULT '0.00',
   `Total_points` int NOT NULL DEFAULT '0',
   `Name` varchar(30) NOT NULL,
@@ -429,10 +429,10 @@ DROP TABLE IF EXISTS `TEAM_MANAGER`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `TEAM_MANAGER` (
   `Manager_First_Name` varchar(20) NOT NULL,
-  `Manager_Last_Name` varchar(20) DEFAULT NULL,
+  `Manager_Last_Name` varchar(20) NOT NULL,
   `Name` varchar(30) NOT NULL,
   PRIMARY KEY (`Name`),
-  UNIQUE KEY `ManKey` (`Manager_First_Name`,`Manager_Last_Name`)
+  UNIQUE KEY `TEAM_MANAGER_UNIQUE` (`Manager_First_Name`,`Manager_Last_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -459,7 +459,8 @@ CREATE TABLE `UMPIRE` (
   `Umpire_Position` int NOT NULL,
   PRIMARY KEY (`Date_Time`,`Venue`,`Umpire_Name`),
   UNIQUE KEY `Umpire_Name` (`Umpire_Name`),
-  CONSTRAINT `FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`)
+  CONSTRAINT `UMPIRE_FK` FOREIGN KEY (`Date_Time`, `Venue`) REFERENCES `FIXTURE` (`Date_Time`, `Venue`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `UMPIRE_chk_1` CHECK (((`Umpire_Position` = 1) or (`Umpire_Position` = 2) or (`Umpire_Position` = 3)))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -481,4 +482,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-15 13:08:53
+-- Dump completed on 2022-11-15 13:56:35
