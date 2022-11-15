@@ -168,3 +168,104 @@ CREATE TABLE JERSEY(
     CONSTRAINT JERSEY_BELONGS_TO_FK
     FOREIGN KEY(BELONGS_TO) REFERENCES TEAM(Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+INSERT INTO TEAM VALUES ('Wankhede Stadium', 4, 960000, 125000000, 0, 0, 'Mumbai Indians', 'Mahela Jayawardane'),
+('Chepauk Stadium', 5, 14000000, 200000000, 0, 0, 'Chennai Super Kings', 'Stephen Fleming');
+('Rajiv Gandhi Stadium', 3,15600000, 60000000, 0,0,'Sunrisers Hyderabad','Tom Moody'),
+('Chinnaswamy Stadium',4,30000000,246000000,0,0,'Royal Challengers Bangalore','Sanjay Bangar'),
+('Narendra Modi Stadium',1,2000000,50000000,0,0,'Gujarat Titans','Gary Kirsten'),
+('Eden Gardens',2,7500000,120000000,0,0,'Kolkata Knight Riders','Brendon McCullum');
+('Sardar Vallabhbhai Patel Stadium',3,20000000,1150000000,0,0,'Lucknow Super Giants','Gautam Gambhir'),
+('Mohali Stadium',4,50000000,900000000,0,0,'Punjab Kings','Anil Kumble'),
+('Feroz Shah Kotla Ground',0,1000000,1800000000,0,0,'Delhi Capitals','Ricky Ponting'),
+('Sawai Mansingh Stadium',3,11500000,1900000000,0,0,'Rajasthan Royals','Kumar Sangakkara');
+
+INSERT INTO JERSEY VALUES (7, 'Chennai Super Kings'),
+(18, 'Royal Challengers Bangalore'),
+(45, 'Mumbai Indians'),
+(31, 'Sunrisers Hyderabad');
+
+INSERT INTO FORM VALUES (307,7.6),(276,6.9),(203,5.1),(294,7.3),(200,5.0),(372,9.3),(265,6.3),(233,5.82),(191,4.78),(287,7.1);
+
+INSERT INTO PLAYER VALUES ('170000000','200000000','Virat Kohli','Faf Du Plessis',307),
+('150000000','170000000','Rohit Sharma','Rohit Sharma',276),
+('120000000','150000000','MS Dhoni','MS Dhoni',203),
+('100000000','140000000','David Warner','Kane Williamson',294),
+('90000000','150000000','Rashid Khan','Hardik Pandya',200),
+('85000000','120000000','Andrew Russell','Shreyas Iyer',372)
+('150000000','200000000','Hardik Pandya','Hardik Pandya',287),
+('100000000','156000000','Kane Williamson','Kane Williamson',191),
+('90000000','125000000','Faf Du Plessis','Faf Du Plessis',233),
+('75000000','135000000','Shreyas Iyer','Shreyas Iyer',265);
+
+INSERT INTO FIXTURE VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kolkata Knight Riders',1),
+('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Royal Challengers Bangalore',54),
+('2022-05-07 19:30:00.000','Wankhede Stadium','Mumbai Indians',51),
+('2022-04-15 19:30:00.000','Narendra Modi Stadium','Sunrisers Hyderabad',25),
+('2022-04-21 19:30:00.000','Chepauk Stadium', 'Chennai Super Kings',33);
+
+INSERT INTO PARTNER VALUES (830940635,'Disney + Hotstar'),(131235894,'CRED'),(110415674,'CEAT'),(371251789,'Paytm'),(033192133,'Aramco'),(0847819876,'TATA'),(547811128,'Unacademy');
+
+INSERT INTO PARTNER_TYPE VALUES (830940635,'Digital Streaming Partner'),(131235894,'Official Partner'),(110415674,'Strategic Timeout Partner'),(371251789,'Umpire Partner'),(033192133,'Official Orange & Purple Cap Partner'),
+(0847819876,'Title Sponsor'),(547811128,'Official Partner');
+
+INSERT INTO LEAGUE VALUES (200000000,'Chennai Super Kings','Rajasthan Royals','DLF IPL',1),
+(200000000,'Royal Challengers Bangalore','Sunrisers Hyderabad','DLF IPL',2),
+(200000000,'Mumbai Indians','Chennai Super Kings','DLF IPL',3),
+(200000000,'Royal Challengers Bangalore','Chennai Super Kings','DLF IPL',4),
+(200000000,'Chennai Super Kings','Kolkata Knight Riders','DLF IPL',5),
+(200000000,'Chennai Super Kings','Mumbai Indians','Pepsi IPL',6),
+(200000000,'Punjab Kings','Kolkata Knight Riders','Pepsi IPL',7),
+(200000000,'Chennai Super Kings','Mumbai Indians','Pepsi IPL',8),
+(200000000,'Royal Challengers Bangalore','Sunrisers Hyderabad','Vivo IPL',9),
+(200000000,'Lucknow Super Giants','Mumbai Indians','Vivo IPL',10),
+(200000000,'Sunrisers Hyderabad','Chennai Super Kings','Vivo IPL',11),
+(200000000,'Chennai Super Kings','Mumbai Indians','Vivo IPL',12),
+(200000000,'Delhi Capitals','Mumbai Indians','Dream 11 IPL',13),
+(200000000,'Kolkata Knight Riders','Chennai Super Kings','Dream 11 IPL',14),
+(200000000,'Rajasthan Royals','Gujarat Titans','TATA IPL',15);
+
+INSERT INTO TEAM_MANAGER VALUES ('Mukesh','Ambani','Mumbai Indians'),
+('Narayanaswami','Srinivasan','Chennai Super Kings'),
+('Vijay','Mallya','Royal Challengers Bangalore'),
+('Raj','Kundra','Rajasthan Royals'),
+('Ness','Wadia','Punjab Kings'),
+('ShahRukh','Khan','Kolkata Knight Riders'),
+('Parth','Jindal','Delhi Capitals'),
+('Kalanithi','Maran','Sunrisers Hyderabad').
+('Steve','Koltes','Gujarat Titans'),
+('Sanjeev','Goenka','Lucknow Super Giants');
+
+INSERT INTO UMPIRES VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kumar Dharmasena',1),
+('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Sundaram Ravi',2),
+('2022-05-07 19:30:00.000','Wankhede Stadium','Anil Chaudhary',3),
+('2022-04-15 19:30:00.000','Narendra Modi Stadium','Marais Erasmus',2),
+('2022-04-21 19:30:00.000','Chepauk Stadium','Nitin Menon',1);
+
+INSERT INTO COMMENTATORS VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Harsha Bhogle'),
+('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Ravi Shastri'),
+('2022-05-07 19:30:00.000','Wankhede Stadium','Sanjay Manjrekar'),
+('2022-04-15 19:30:00.000','Narendra Modi Stadium','Danny Morrison'),
+('2022-04-21 19:30:00.000','Chepauk Stadium','Simon Doull');
+
+INSERT INTO AWARDS VALUES (100000,'Man of the Match',9,'Andre Russell'),
+(500000,'Man of the Tournament',13,'Virat Kohli'),
+(100000,'Emerging Player of the Season',12,'Shreyas Iyer'),
+(300000,'Super-striker of the Season',8,'Hardik Pandya'),
+(100000,'Game changer of the Match',8,'Kane Williamson');
+
+INSERT INTO SPONSORS_PLAYER VALUES ('Virat Kohli', 110415674),('Hardik Pandya',131235894),('Kane Williamson',547811128);
+INSERT INTO SPONSORS_LEAGUE VALUES (15,0847819876),(13,371251789),(8,830940635);
+INSERT INTO SPONSORS_TEAM VALUES ('Gujarat Titans',033192133),('Chennai Super Kings', 110415674),('Royal Challengers Bangalore',0847819876);
+
+INSERT INTO PLAYS_IN VALUES ('Kolkata Knight Riders','2022-03-26 19:30:00.000','Chepauk Stadium'),
+('Royal Challengers Bangalore','2022-05-08 15:30:00.000','Chinnaswamy Stadium'),
+('Mumbai Indians','2022-05-07 19:30:00.000','Wankhede Stadium'),
+('Sunrisers Hyderabad','2022-04-15 19:30:00.000','Narendra Modi Stadium'),
+('Chennai Super Kings','2022-04-21 19:30:00.000','Chepauk Stadium');
+
+INSERT INTO PLAYS_FOR_IN_OF VALUES  ('Andre Russell','Kolkata Knight Riders','2022-03-26 19:30:00.000','Chepauk Stadium',3),
+('Virat Kohli','Royal Challengers Bangalore','2022-05-08 15:30:00.000','Chinnaswamy Stadium',7),
+('Rohit Sharma','Mumbai Indians','2022-05-07 19:30:00.000','Wankhede Stadium',12),
+('David Warner','Sunrisers Hyderabad','2022-04-15 19:30:00.000','Narendra Modi Stadium',15),
+('MS Dhoni','Chennai Super Kings','2022-04-21 19:30:00.000','Chepauk Stadium',11);
