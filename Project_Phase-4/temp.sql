@@ -10,7 +10,7 @@ CREATE TABLE PARTNER (
 
 CREATE TABLE PARTNER_TYPE (
     CIN INT UNIQUE NOT NULL,
-    Type VARCHAR(40) NOT NULL,
+    Type VARCHAR(50) NOT NULL,
     CONSTRAINT PARTNER_TYPE_PK PRIMARY KEY(CIN, Type),
     CONSTRAINT PARTNER_TYPE_FK
     FOREIGN KEY(CIN) REFERENCES PARTNER(CIN) ON DELETE CASCADE ON UPDATE CASCADE
@@ -18,29 +18,29 @@ CREATE TABLE PARTNER_TYPE (
 
 CREATE TABLE LEAGUE (
     Prize_Money INT NOT NULL DEFAULT 10000000,
-    Runner_Up VARCHAR(20) NOT NULL,
-    Winner VARCHAR(20) NOT NULL,
-    Name VARCHAR(30) NOT NULL UNIQUE,
+    Runner_Up VARCHAR(50) NOT NULL,
+    Winner VARCHAR(50) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
     Season_Number INT AUTO_INCREMENT UNIQUE NOT NULL,
     CONSTRAINT LEAGUE_PK PRIMARY KEY(Season_Number)
 );
 
 CREATE TABLE TEAM (
-    Place VARCHAR(20) NOT NULL,
+    Place VARCHAR(50) NOT NULL,
     RTM_Cards INT NOT NULL DEFAULT 0,
     Money_Left INT NOT NULL DEFAULT 0,
     Brand_Value INT NOT NULL DEFAULT 10000000,
     Fair_play_points DECIMAL(5, 2) NOT NULL DEFAULT 0,
     Total_points INT NOT NULL DEFAULT 0,
-    Name VARCHAR(30) NOT NULL UNIQUE,
-    Coach VARCHAR(20) NOT NULL UNIQUE,
+    Name VARCHAR(50) NOT NULL UNIQUE,
+    Coach VARCHAR(50) NOT NULL UNIQUE,
     CONSTRAINT TEAM_PK PRIMARY KEY(Name)
 );
 
 CREATE TABLE TEAM_MANAGER (
-    Manager_First_Name VARCHAR(20) NOT NULL,
-    Manager_Last_Name VARCHAR(20) NOT NULL ,
-    Name VARCHAR(30) NOT NULL,
+    Manager_First_Name VARCHAR(50) NOT NULL,
+    Manager_Last_Name VARCHAR(50) NOT NULL ,
+    Name VARCHAR(50) NOT NULL,
     CONSTRAINT TEAM_MANAGER_PK PRIMARY KEY(Name),
     CONSTRAINT TEAM_MANAGER_UNIQUE UNIQUE(Manager_First_Name, Manager_Last_Name)
 );
@@ -48,7 +48,7 @@ CREATE TABLE TEAM_MANAGER (
 CREATE TABLE FIXTURE (
     Date_Time TIMESTAMP NOT NULL, 
     Venue VARCHAR(50) NOT NULL ,
-    Result VARCHAR(30) NOT NULL,
+    Result VARCHAR(50) NOT NULL,
     Match_No INT NOT NULL,
     CONSTRAINT FIXTURE_PK PRIMARY KEY(Date_Time, Venue)
 );
@@ -56,7 +56,7 @@ CREATE TABLE FIXTURE (
 CREATE TABLE UMPIRE (
     Date_Time TIMESTAMP NOT NULL, 
     Venue VARCHAR(50) NOT NULL ,
-    Umpire_Name VARCHAR(20) NOT NULL UNIQUE,
+    Umpire_Name VARCHAR(50) NOT NULL UNIQUE,
     Umpire_Position INT NOT NULL,
     CONSTRAINT UMPIRE_PK PRIMARY KEY(Date_Time, Venue, Umpire_Name),
     CONSTRAINT UMPIRE_FK FOREIGN KEY (Date_Time, Venue) REFERENCES FIXTURE(Date_Time, Venue) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -72,8 +72,8 @@ CREATE TABLE FORM (
 CREATE TABLE PLAYER (
     Base_price INT NOT NULL,
     Auctioned_price INT NOT NULL DEFAULT 2000000,
-    Name VARCHAR(40) NOT NULL UNIQUE,
-    CName VARCHAR(40) NOT NULL,
+    Name VARCHAR(50) NOT NULL UNIQUE,
+    CName VARCHAR(50) NOT NULL,
     Fantasy_points INT NOT NULL DEFAULT 0,
     CONSTRAINT PLAYER_PK PRIMARY KEY(Name),
     CONSTRAINT PLAYER_Fantasy_points_FK
@@ -84,9 +84,9 @@ CREATE TABLE PLAYER (
 
 CREATE TABLE AWARDS (
     Prize_Money INT NOT NULL DEFAULT 100000,
-    Name VARCHAR(20) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
     AWARDED_IN INT NOT NULL,
-    AWARDED_TO VARCHAR(40) NOT NULL UNIQUE,
+    AWARDED_TO VARCHAR(50) NOT NULL UNIQUE,
     CONSTRAINT AWARDS_PK PRIMARY KEY(Name, AWARDED_IN, AWARDED_TO),
     CONSTRAINT AWARDS_AWARDED_IN_FK
     FOREIGN KEY(AWARDED_IN) REFERENCES LEAGUE(Season_Number) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -95,7 +95,7 @@ CREATE TABLE AWARDS (
 );
 
 CREATE TABLE SPONSORS_PLAYER (
-    Name VARCHAR(40) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
     CIN INT NOT NULL,
     CONSTRAINT SPONSORS_PLAYER_PK PRIMARY KEY(Name, CIN),
     CONSTRAINT SPONSORS_PLAYER_Name_FK 
@@ -115,7 +115,7 @@ CREATE TABLE SPONSORS_LEAGUE (
 );
 
 CREATE TABLE SPONSORS_TEAM (
-    Name VARCHAR(30) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
     CIN INT NOT NULL,
     CONSTRAINT SPONSORS_TEAM_PK PRIMARY KEY(Name, CIN),
     CONSTRAINT SPONSORS_TEAM_Name_FK 
@@ -125,7 +125,7 @@ CREATE TABLE SPONSORS_TEAM (
 );
 
 CREATE TABLE PLAYS_IN(
-    Name VARCHAR(30) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
     Date_Time TIMESTAMP NOT NULL,
     Venue VARCHAR(50) NOT NULL,
     CONSTRAINT PLAYS_IN_PK PRIMARY KEY(Name, Date_Time, Venue),
@@ -136,8 +136,8 @@ CREATE TABLE PLAYS_IN(
 );
 
 CREATE TABLE PLAYS_FOR_IN_OF (
-    PName VARCHAR(40) NOT NULL,
-    TName VARCHAR(30) NOT NULL,
+    PName VARCHAR(50) NOT NULL,
+    TName VARCHAR(50) NOT NULL,
     Date_Time TIMESTAMP NOT NULL,
     Venue VARCHAR(50) NOT NULL,
     Season_Number INT NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE PLAYS_FOR_IN_OF (
 CREATE TABLE COMMENTATORS(
     Date_Time TIMESTAMP NOT NULL,
     Venue VARCHAR(50) NOT NULL,
-    Commentators VARCHAR(30) NOT NULL,
+    Commentators VARCHAR(50) NOT NULL,
     CONSTRAINT COMMENTATORS_PK PRIMARY KEY(Date_Time, Venue, Commentators),
     CONSTRAINT COMMENTATORS_Date_Time_Venue_FK
     FOREIGN KEY(Date_Time, Venue) REFERENCES FIXTURE(Date_Time, Venue) ON DELETE CASCADE ON UPDATE CASCADE
@@ -163,18 +163,18 @@ CREATE TABLE COMMENTATORS(
 
 CREATE TABLE JERSEY(
     Jersey_Number INT NOT NULL,
-    BELONGS_TO VARCHAR(30) NOT NULL,
+    BELONGS_TO VARCHAR(50) NOT NULL,
     CONSTRAINT JERSEY_PK PRIMARY KEY(Jersey_Number, BELONGS_TO),
     CONSTRAINT JERSEY_BELONGS_TO_FK
     FOREIGN KEY(BELONGS_TO) REFERENCES TEAM(Name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO TEAM VALUES ('Wankhede Stadium', 4, 960000, 125000000, 0, 0, 'Mumbai Indians', 'Mahela Jayawardane'),
-('Chepauk Stadium', 5, 14000000, 200000000, 0, 0, 'Chennai Super Kings', 'Stephen Fleming');
+('Chepauk Stadium', 5, 14000000, 200000000, 0, 0, 'Chennai Super Kings', 'Stephen Fleming'),
 ('Rajiv Gandhi Stadium', 3,15600000, 60000000, 0,0,'Sunrisers Hyderabad','Tom Moody'),
 ('Chinnaswamy Stadium',4,30000000,246000000,0,0,'Royal Challengers Bangalore','Sanjay Bangar'),
 ('Narendra Modi Stadium',1,2000000,50000000,0,0,'Gujarat Titans','Gary Kirsten'),
-('Eden Gardens',2,7500000,120000000,0,0,'Kolkata Knight Riders','Brendon McCullum');
+('Eden Gardens',2,7500000,120000000,0,0,'Kolkata Knight Riders','Brendon McCullum'),
 ('Sardar Vallabhbhai Patel Stadium',3,20000000,1150000000,0,0,'Lucknow Super Giants','Gautam Gambhir'),
 ('Mohali Stadium',4,50000000,900000000,0,0,'Punjab Kings','Anil Kumble'),
 ('Feroz Shah Kotla Ground',0,1000000,1800000000,0,0,'Delhi Capitals','Ricky Ponting'),
@@ -185,18 +185,18 @@ INSERT INTO JERSEY VALUES (7, 'Chennai Super Kings'),
 (45, 'Mumbai Indians'),
 (31, 'Sunrisers Hyderabad');
 
-INSERT INTO FORM VALUES (307,7.6),(276,6.9),(203,5.1),(294,7.3),(200,5.0),(372,9.3),(265,6.3),(233,5.82),(191,4.78),(287,7.1);
+INSERT INTO FORM VALUES (307,7.6),(276,6.9),(203,5.1),(294,7.3),(200,5.0),(372,9.3),(265,6.3),(233,5.8),(191,4.7),(287,7.1);
 
-INSERT INTO PLAYER VALUES ('170000000','200000000','Virat Kohli','Faf Du Plessis',307),
+INSERT INTO PLAYER VALUES ('150000000','200000000','Hardik Pandya','Hardik Pandya',287),
+('100000000','156000000','Kane Williamson','Kane Williamson',191),
+('90000000','125000000','Faf Du Plessis','Faf Du Plessis',233),
+('75000000','135000000','Shreyas Iyer','Shreyas Iyer',265),
+('170000000','200000000','Virat Kohli','Faf Du Plessis',307),
 ('150000000','170000000','Rohit Sharma','Rohit Sharma',276),
 ('120000000','150000000','MS Dhoni','MS Dhoni',203),
 ('100000000','140000000','David Warner','Kane Williamson',294),
 ('90000000','150000000','Rashid Khan','Hardik Pandya',200),
-('85000000','120000000','Andrew Russell','Shreyas Iyer',372)
-('150000000','200000000','Hardik Pandya','Hardik Pandya',287),
-('100000000','156000000','Kane Williamson','Kane Williamson',191),
-('90000000','125000000','Faf Du Plessis','Faf Du Plessis',233),
-('75000000','135000000','Shreyas Iyer','Shreyas Iyer',265);
+('85000000','120000000','Andre Russell','Shreyas Iyer',372);
 
 INSERT INTO FIXTURE VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kolkata Knight Riders',1),
 ('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Royal Challengers Bangalore',54),
@@ -204,9 +204,9 @@ INSERT INTO FIXTURE VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kolkata
 ('2022-04-15 19:30:00.000','Narendra Modi Stadium','Sunrisers Hyderabad',25),
 ('2022-04-21 19:30:00.000','Chepauk Stadium', 'Chennai Super Kings',33);
 
-INSERT INTO PARTNER VALUES (830940635,'Disney + Hotstar'),(131235894,'CRED'),(110415674,'CEAT'),(371251789,'Paytm'),(033192133,'Aramco'),(0847819876,'TATA'),(547811128,'Unacademy');
+INSERT INTO PARTNER VALUES (830940635,'Disney + Hotstar'),(131235894,'CRED'),(110415674,'CEAT'),(371251789,'Paytm'),(833192133,'Aramco'),(0847819876,'TATA'),(547811128,'Unacademy');
 
-INSERT INTO PARTNER_TYPE VALUES (830940635,'Digital Streaming Partner'),(131235894,'Official Partner'),(110415674,'Strategic Timeout Partner'),(371251789,'Umpire Partner'),(033192133,'Official Orange & Purple Cap Partner'),
+INSERT INTO PARTNER_TYPE VALUES (830940635,'Digital Streaming Partner'),(131235894,'Official Partner'),(110415674,'Strategic Timeout Partner'),(371251789,'Umpire Partner'),(833192133,'Official Orange & Purple Cap Partner'),
 (0847819876,'Title Sponsor'),(547811128,'Official Partner');
 
 INSERT INTO LEAGUE VALUES (200000000,'Chennai Super Kings','Rajasthan Royals','DLF IPL',1),
@@ -232,11 +232,11 @@ INSERT INTO TEAM_MANAGER VALUES ('Mukesh','Ambani','Mumbai Indians'),
 ('Ness','Wadia','Punjab Kings'),
 ('ShahRukh','Khan','Kolkata Knight Riders'),
 ('Parth','Jindal','Delhi Capitals'),
-('Kalanithi','Maran','Sunrisers Hyderabad').
+('Kalanithi','Maran','Sunrisers Hyderabad'),
 ('Steve','Koltes','Gujarat Titans'),
 ('Sanjeev','Goenka','Lucknow Super Giants');
 
-INSERT INTO UMPIRES VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kumar Dharmasena',1),
+INSERT INTO UMPIRE VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kumar Dharmasena',1),
 ('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Sundaram Ravi',2),
 ('2022-05-07 19:30:00.000','Wankhede Stadium','Anil Chaudhary',3),
 ('2022-04-15 19:30:00.000','Narendra Modi Stadium','Marais Erasmus',2),
@@ -256,7 +256,7 @@ INSERT INTO AWARDS VALUES (100000,'Man of the Match',9,'Andre Russell'),
 
 INSERT INTO SPONSORS_PLAYER VALUES ('Virat Kohli', 110415674),('Hardik Pandya',131235894),('Kane Williamson',547811128);
 INSERT INTO SPONSORS_LEAGUE VALUES (15,0847819876),(13,371251789),(8,830940635);
-INSERT INTO SPONSORS_TEAM VALUES ('Gujarat Titans',033192133),('Chennai Super Kings', 110415674),('Royal Challengers Bangalore',0847819876);
+INSERT INTO SPONSORS_TEAM VALUES ('Gujarat Titans',833192133),('Chennai Super Kings', 110415674),('Royal Challengers Bangalore',0847819876);
 
 INSERT INTO PLAYS_IN VALUES ('Kolkata Knight Riders','2022-03-26 19:30:00.000','Chepauk Stadium'),
 ('Royal Challengers Bangalore','2022-05-08 15:30:00.000','Chinnaswamy Stadium'),

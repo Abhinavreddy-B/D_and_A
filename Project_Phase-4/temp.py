@@ -725,11 +725,16 @@ while(1):
             while(1):
                 tmp = sp.call('clear', shell=True)
                 # Here taking example of Employee Mini-world
-                print("1. Option 1")  # Hire an Employee
-                print("2. Option 2")  # Fire an Employee
-                print("3. Option 3")  # Promote Employee
-                print("4. Option 4")  # Employee Statistics
-                print("5. Logout")
+                print("1. Option 1 Insert Player")  # Insert a Player
+                print("2. Option 2 Insert Form of a Player")  # Form of a Player
+                print("3. Option 3 Insert Team")  # Team
+                print("4. Option 4 Insert Team Manager")  # Team Manager
+                print("5. Option 5 Insert LEAGUE")  # League
+                print("6. Option 6 Insert Fixture") # Fixture
+                print("7. Option 7 Insert Commentator") # Commentator
+                print("8. Option 8 Insert Umpire") # Umpire
+                print("9. Option 9 Insert Partner")
+                # print("5. Logout")
                 ch = int(input("Enter choice> "))
                 tmp = sp.call('clear', shell=True)
                 if ch == 5:
