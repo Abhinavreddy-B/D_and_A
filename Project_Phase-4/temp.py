@@ -324,9 +324,8 @@ def fixtureSearch():
     try:
         print("Enter the details of the fixture:")
         Date_Time = input("Provide time in yyyy-mm-dd HH:MM:SS format: ")
-        Venue = input("Scheduled venue of fixture: ")
 
-        query = "SELECT * FROM FIXTURE WHERE Date_Time = '{Date_Time}' AND Venue = '{Venue}'"
+        query = "SELECT * FROM FIXTURE WHERE Date_Time = '{Date_Time}'"
 
         print(query)
         cur.execute(query)
@@ -640,7 +639,9 @@ def playsForInOf():
         dt = input("1. Provide date/time of the match'yyyy-mm-dd HH:MM:SS' (without the '') format: ")
         venue = input("2. Provide venue of the match")
         Sno = int(input("In which Season Number does/did this match happen"))
+        
         query = "INSERT INTO PLAYS_FOR_IN_OF VALUES('{pname}','{tname}','{dt}','{venue}',{SNo})"
+        
         print(query)
         cur.execute(query)
         con.commit()
@@ -651,6 +652,44 @@ def playsForInOf():
         print("Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
 
+def tournamentReport():
+    try:
+        sno = int(input("Enter Season Number"))
+        query = "SELECT DISTINCT Date_time,Venue,Result,Match_No FROM FIXTURE NATURAL JOIN (SELECT * FROM PLAYS_FOR_IN_OF WHERE Season_Number=11) AS N"
+        
+        print(query)
+        cur.execute(query)
+        con.commit()
+
+        print("Success")
+    except:
+        con.rollback()
+        print("Failed")
+        print(">>>>>>>>>>>>>", e)
+
+def MVP():
+    try:
+        query = "SELECT Name FROM PLAYER WHERE Fantasy_points = (SELECT MAX(Fantasy_points) FROM PLAYER)"
+        print(query)
+        cur.execute(query)
+        con.commit()
+
+    except:
+        con.rollback()
+        print("Failed to insert into database")
+        print(">>>>>>>>>>>>>", e)
+
+def pitchDependencyReport():
+    try:
+        query = "SELECT Name FROM TEAM, FIXTURE WHERE Name = Result AND Place = Venue AND ((COUNT(SELECT Result FROM TEAM, FIXTURE WHERE Result = Name)) > (0.7 * (COUNT(SELECT Venue FROM TEAM, FIXTURE WHERE Venue = Place))))"
+        print(query)
+        cur.execute(query)
+        con.commit()
+
+    except:
+        con.rollback()
+        print("Failed to insert into database")
+        print(">>>>>>>>>>>>>", e)
 
 def dispatch(ch):
     """
@@ -691,6 +730,37 @@ def dispatch(ch):
         playsIn()
     elif (ch == 17):
         playsForInOf()
+    elif (ch == 18):
+        playerSponsorDelete()
+    elif (ch == 19):
+        teamSponsorDelete()
+    elif (ch == 20):
+        leagueSponsorDelete()
+    elif (ch == 21):
+        playerUpdate()
+    elif (ch == 22):
+        teamMgrUpdate()
+    elif (ch == 23):
+        teamUpdate()
+    elif (ch == 24):
+        fixtureUpdate()
+    elif (ch == 25):
+        playerSearch()
+    elif (ch == 26):
+        fixtureSearch()
+    elif (ch == 27):
+        teamSort()
+    elif (ch == 28):
+        playerSort()
+    elif (ch == 29):
+        partnerFind()
+    elif (ch == 30):
+        tournamentReport()
+    elif (ch == 31):
+        MVP()
+    elif (ch == 32):
+        pitchDependencyReport()
+    
     else:
         print("Error: Invalid Option")
 
@@ -725,19 +795,42 @@ while(1):
             while(1):
                 tmp = sp.call('clear', shell=True)
                 # Here taking example of Employee Mini-world
-                print("1. Option 1 Insert Player")  # Insert a Player
-                print("2. Option 2 Insert Form of a Player")  # Form of a Player
-                print("3. Option 3 Insert Team")  # Team
-                print("4. Option 4 Insert Team Manager")  # Team Manager
-                print("5. Option 5 Insert LEAGUE")  # League
-                print("6. Option 6 Insert Fixture") # Fixture
-                print("7. Option 7 Insert Commentator") # Commentator
-                print("8. Option 8 Insert Umpire") # Umpire
-                print("9. Option 9 Insert Partner")
-                # print("5. Logout")
+                print("1.  Insert Player")  # Insert a Player
+                print("2.  Insert Form of a Player")  # Form of a Player
+                print("3.  Insert Team")  # Team
+                print("4.  Insert Team Manager")  # Team Manager
+                print("5.  Insert LEAGUE")  # League
+                print("6.  Insert Fixture") # Fixture
+                print("7.  Insert Commentator") # Commentator
+                print("8.  Insert Umpire") # Umpire
+                print("9.  Insert Partner")
+                print("10. Insert Partner_Type")
+                print("11. Insert Jersey")
+                print("12. Insert Award")
+                print("13. Insert Player_Sponsor")
+                print("14. Insert Team_Sponsor")
+                print("15. Insert League_Sponsor")
+                print("16. Insert Team PLAYS_IN Fixture")
+                print("17. Insert Player PLAYS_FOR Team IN Fixture OF League")
+                print("18. Delete Player Sponsor")
+                print("19. Delete Team Sponsor")
+                print("20. Delete League Sponsor")
+                print("21. Update Player details")
+                print("22. Update Team Manager details")
+                print("23. Update Team details")
+                print("24. Update Fixture details")
+                print("25. Search Player by name")
+                print("26. Search Fixture by date-time")
+                print("27. Display all teams sorted in order of Total Points")
+                print("28. Display all players in order of their names")
+                print("29. Display all Sponsors sponsoring a League")
+                print("30. Display the results of all fixture in a given season")
+                print("31. Display Most Valuable Player(s)")
+                print("32. Display Pitch Dependency Report")
+                print("-1.Logout")
                 ch = int(input("Enter choice> "))
                 tmp = sp.call('clear', shell=True)
-                if ch == 5:
+                if ch == -1:
                     exit()
                 else:
                     dispatch(ch)
