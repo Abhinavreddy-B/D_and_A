@@ -162,6 +162,21 @@ def teamUpdate():
         print(">>>>>>>>>>>>>", e)
 
     return
+
+def deduct_fair_play_points():
+    try:
+        teamName = input("Enter the team of which the points have to be deducted: ")
+        query = "UPDATE TEAM SET Fair_play_points = Fair_play_points - 2 WHERE Name = {teamName}"
+        print(query)
+        cur.execute(query)
+        con.commit()
+
+        print("Deducted points")
+
+    except Exception as e:
+        con.rollback()
+        print("Failed to insert into database")
+        print(">>>>>>>>>>>>>", e)
     
 def teamSort():
     try:
@@ -289,6 +304,15 @@ def fixtureUpdate():
         print(query)
         cur.execute(query)
         con.commit()
+
+        try:
+            query = "UPDATE TEAM SET Total_points = Total_points + 2 WHERE Name = '%s' AND Venue = '%s' AND Date_Time = '%s'" % (
+            fixtureDetails["Result"], fixtureDetails["Venue"], fixtureDetails["Date_Time"])
+
+        except Exception as e:
+            con.rollback()
+            print("Failed to insert into database")
+            print(">>>>>>>>>>>>>", e)   
 
         print("Inserted fixture details into the database")
     
@@ -655,7 +679,7 @@ def playsForInOf():
 def tournamentReport():
     try:
         sno = int(input("Enter Season Number"))
-        query = "SELECT DISTINCT Date_time,Venue,Result,Match_No FROM FIXTURE NATURAL JOIN (SELECT * FROM PLAYS_FOR_IN_OF WHERE Season_Number=11) AS N"
+        query = "SELECT DISTINCT Date_time, Venue, Result, Match_No FROM FIXTURE NATURAL JOIN (SELECT * FROM PLAYS_FOR_IN_OF WHERE Season_Number = {sno}) AS N"
         
         print(query)
         cur.execute(query)
@@ -681,7 +705,7 @@ def MVP():
 
 def pitchDependencyReport():
     try:
-        query = "SELECT Name FROM TEAM, FIXTURE WHERE Name = Result AND Place = Venue AND ((COUNT(SELECT Result FROM TEAM, FIXTURE WHERE Result = Name)) > (0.7 * (COUNT(SELECT Venue FROM TEAM, FIXTURE WHERE Venue = Place))))"
+        query = "SELECT Name FROM TEAM, FIXTURE WHERE Name = Result AND Place = Venue AND ((SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Result = Name) > (0.7 * (SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Venue = Place)))"
         print(query)
         cur.execute(query)
         con.commit()
@@ -743,22 +767,24 @@ def dispatch(ch):
     elif (ch == 23):
         teamUpdate()
     elif (ch == 24):
-        fixtureUpdate()
+        deduct_fair_play_points()
     elif (ch == 25):
-        playerSearch()
+        fixtureUpdate()
     elif (ch == 26):
-        fixtureSearch()
+        playerSearch()
     elif (ch == 27):
-        teamSort()
+        fixtureSearch()
     elif (ch == 28):
-        playerSort()
+        teamSort()
     elif (ch == 29):
-        partnerFind()
+        playerSort()
     elif (ch == 30):
-        tournamentReport()
+        partnerFind()
     elif (ch == 31):
-        MVP()
+        tournamentReport()
     elif (ch == 32):
+        MVP()
+    elif (ch == 33):
         pitchDependencyReport()
     
     else:
@@ -794,15 +820,15 @@ while(1):
         with con.cursor() as cur:
             while(1):
                 tmp = sp.call('clear', shell=True)
-                # Here taking example of Employee Mini-world
-                print("1.  Insert Player")  # Insert a Player
-                print("2.  Insert Form of a Player")  # Form of a Player
-                print("3.  Insert Team")  # Team
-                print("4.  Insert Team Manager")  # Team Manager
-                print("5.  Insert LEAGUE")  # League
-                print("6.  Insert Fixture") # Fixture
-                print("7.  Insert Commentator") # Commentator
-                print("8.  Insert Umpire") # Umpire
+
+                print("1.  Insert Player")
+                print("2.  Insert Form of a Player")
+                print("3.  Insert Team")
+                print("4.  Insert Team Manager")
+                print("5.  Insert LEAGUE")
+                print("6.  Insert Fixture")
+                print("7.  Insert Commentator")
+                print("8.  Insert Umpire")
                 print("9.  Insert Partner")
                 print("10. Insert Partner_Type")
                 print("11. Insert Jersey")
@@ -818,18 +844,23 @@ while(1):
                 print("21. Update Player details")
                 print("22. Update Team Manager details")
                 print("23. Update Team details")
-                print("24. Update Fixture details")
-                print("25. Search Player by name")
-                print("26. Search Fixture by date-time")
-                print("27. Display all teams sorted in order of Total Points")
-                print("28. Display all players in order of their names")
-                print("29. Display all Sponsors sponsoring a League")
-                print("30. Display the results of all fixture in a given season")
-                print("31. Display Most Valuable Player(s)")
-                print("32. Display Pitch Dependency Report")
+                print("24. Deduct fair play points of a team")
+                print("25. Update Fixture details")
+                print("26. Search Player by name")
+                print("27. Search Fixture by date-time")
+                print("28. Display all teams sorted in order of Total Points")
+                print("29. Display all players in order of their names")
+                print("30. Display all Sponsors sponsoring a League")
+                print("31. Display the results of all fixture in a given season")
+                print("32. Display Most Valuable Player(s)")
+                print("33. Display Pitch Dependency Report")
+                
                 print("-1.Logout")
+                
                 ch = int(input("Enter choice> "))
+                
                 tmp = sp.call('clear', shell=True)
+                
                 if ch == -1:
                     exit()
                 else:
