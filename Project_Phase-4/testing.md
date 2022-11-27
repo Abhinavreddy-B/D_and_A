@@ -80,7 +80,6 @@ SELECT * FROM FIXTURE;
 
 2022-05-18 15:30:00.000
 Narendra Modi Stadium
-Mumbai Indians
 53
 
 SELECT * FROM FIXTURE;
@@ -132,7 +131,7 @@ Partner Type insert() - `10`
 SELECT * FROM PARTNER_TYPE;
 
 830912635
-Broadcast Partne
+Broadcast Partner
 
 SELECT * FROM PARTNER_TYPE;
 ```
@@ -273,7 +272,7 @@ SELECT * FROM PLAYER;
 120000000
 Andre Russell
 Shreyas Iyer
-380
+287
 
 SELECT * FROM PLAYER;
 ```
@@ -284,8 +283,8 @@ teamMgrUpdate() - `22`
 ```sql
 SELECT * FROM TEAM_MANAGER;
 
-Kalanithi
-Maran
+Lokesh
+Kanagaraj
 Chennai Super Kings
 
 SELECT * FROM TEAM_MANAGER;
@@ -326,7 +325,7 @@ fixtureUpdate() - `25`
 ```sql
 SELECT * FROM FIXTURE;
 
-2022-03-26 15:30:00
+2022-03-26 21:00:00
 Feroz Shah Kotla Ground
 Sunrisers Hyderabad
 
@@ -337,6 +336,9 @@ SELECT * FROM FIXTURE;
 
 playerSearch() - `26`
 ```sql
+
+SELECT * FROM PLAYER;
+
 Faf Du Plessis
 ```
 
@@ -344,7 +346,9 @@ Faf Du Plessis
 
 fixtureSearch() - `27`
 ```sql
-2022-03-26 15:30:00
+SELECT * FROM FIXTURE;
+
+2022-04-22 01:00:00
 ```
 
 <hr>
@@ -359,7 +363,9 @@ fixtureSearch() - `27`
 
 partnerFind() - `30`
 ```sql
-15
+SELECT * FROM PARTNER;
+
+13
 ```
 
 <hr>

@@ -95,12 +95,12 @@ def playerUpdate():
         print("Enter the new details of the player:")
         playerDetails["Base_price"] = int(input("Base price: "))
         playerDetails["Auctioned_price"] = int(input("Auctioned price: "))
+        pname = input("Full name: ")
         playerDetails["CName"] = input("Captain name: ")
         playerDetails["Fantasy_points"] = int(input("Fantasy points: "))
-        pname = input("Full name: ")
 
-        query ="UPDATE PLAYER SET Base_price = %d, Auctioned_price = %d, CName = '%s', Fantasy_points = %d WHERE Name='{pname}'" % (
-            playerDetails["Base_price"], playerDetails["Auctioned_price"], pname, playerDetails["CName"], playerDetails["Fantasy_points"])
+        query = "UPDATE PLAYER SET Base_price = %d, Auctioned_price = %d, CName = '%s', Fantasy_points = %d WHERE Name='%s'" % (
+            playerDetails["Base_price"], playerDetails["Auctioned_price"], playerDetails["CName"], playerDetails["Fantasy_points"],pname)
 
         print(query)
         cur.execute(query)
@@ -152,9 +152,9 @@ def formInsert():
         formDetails = {}
         print("Enter fantasy points and corresponding form values:")
         formDetails["Fantasy_points"] = int(input("Fantasy points: "))
-        formDetails["Form"] = int(input("Corresponding form value: "))
+        formDetails["Form"] = float(input("Corresponding form value: "))
 
-        query = "INSERT INTO FORM(Fantasy_points, Form) VALUES(%d, %d)" % (
+        query = "INSERT INTO FORM(Fantasy_points, Form) VALUES(%d, %lf)" % (
             formDetails["Fantasy_points"], formDetails["Form"])
 
         print(query)
@@ -212,7 +212,7 @@ def teamUpdate():
         tname = input("Team name: ")
         teamCoach = input("Coach name: ")
 
-        query = f"UPDATE TEAM SET Place = {teamPlace}, RTM_Cards = {teamCards}, Money_Left = {teamMoneyLeft}, Brand_Value = {teamBrandValue}, Fair_play_points = {teamBrandValue}, Total_points = {teamTotalPoints}, Coach = {teamCoach}, Fair_play_points = {teamFairPlayPoints} WHERE Name = {tname}"
+        query = f"UPDATE TEAM SET Place = '{teamPlace}', RTM_Cards = {teamCards}, Money_Left = {teamMoneyLeft}, Brand_Value = {teamBrandValue}, Total_points = {teamTotalPoints}, Coach = '{teamCoach}', Fair_play_points = {teamFairPlayPoints} WHERE Name = '{tname}'"
 
         print(query)
         cur.execute(query)
@@ -230,7 +230,7 @@ def teamUpdate():
 def deduct_fair_play_points():
     try:
         teamName = input("Enter the team of which the points have to be deducted: ")
-        query = f"UPDATE TEAM SET Fair_play_points = Fair_play_points - 2 WHERE Name = {teamName}"
+        query = f"UPDATE TEAM SET Fair_play_points = Fair_play_points - 2 WHERE Name = '{teamName}'"
         print(query)
         cur.execute(query)
         con.commit()
@@ -370,15 +370,6 @@ def fixtureUpdate():
         print(query)
         cur.execute(query)
         con.commit()
-
-        try:
-            query = f"UPDATE TEAM SET Total_points = Total_points + 2 WHERE Name = '%s' AND Venue = '%s' AND Date_Time = '%s'" % (
-            fixtureDetails["Result"], fixtureDetails["Venue"], fixtureDetails["Date_Time"])
-
-        except Exception as e:
-            con.rollback()
-            print("Failed to insert into database")
-            print(">>>>>>>>>>>>>", e)   
 
         print("Updated the fixture details")
     
@@ -635,7 +626,7 @@ def teamSponsorInsert():
         tname = input("Team name")
         pcin = int(input("Enter CIN of sponsor: "))
 
-        query = f"INSERT INTO SPONSORS_TEAM VALUES({tname},{pcin})"
+        query = f"INSERT INTO SPONSORS_TEAM VALUES('{tname}',{pcin})"
         print(query)
         cur.execute(query)
         con.commit()
@@ -708,7 +699,7 @@ def playsIn():
         tname = input("Enter Team Name:")
         dt = input("Provide date/time of the match'yyyy-mm-dd HH:MM:SS' (without the '') format: ")
         venue = input("Provide venue of the match")
-        query = f"INSERT INTO PLAYS_IN VALUES('{tname}',{dt},'{venue}')"
+        query = f"INSERT INTO PLAYS_IN VALUES('{tname}','{dt}','{venue}')"
         print(query)
         cur.execute(query)
         con.commit()
