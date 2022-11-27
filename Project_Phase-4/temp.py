@@ -730,7 +730,7 @@ def playsForInOf():
         venue = input("2. Provide venue of the match")
         Sno = int(input("In which Season Number does/did this match happen"))
         
-        query = f"INSERT INTO PLAYS_FOR_IN_OF VALUES('{pname}','{tname}','{dt}','{venue}',{SNo})"
+        query = f"INSERT INTO PLAYS_FOR_IN_OF VALUES('{pname}','{tname}','{dt}','{venue}',{Sno})"
         
         print(query)
         cur.execute(query)
