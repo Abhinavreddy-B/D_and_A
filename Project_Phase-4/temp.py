@@ -244,7 +244,7 @@ def deduct_fair_play_points():
     
 def teamSort():
     try:
-        query = f"SELECT * FROM TEAM GROUP BY Name ORDER BY Total_points"
+        query = f"SELECT * FROM TEAM GROUP BY Name ORDER BY Total_points DESC"
         print(query)
         cur.execute(query)
         con.commit()
