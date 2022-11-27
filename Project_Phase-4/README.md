@@ -219,5 +219,6 @@
 
 - `Note 1:` All these commands are tested on Ubuntu Version 20.04.3 LTS (Focal Fossa) 
 - `Note 2:` Use the `Dump.sql` file to load data into sql
+- `Note 3:` Change the username and password to the details of the system on which testing is being done in the `Miniworld.py` file (lines `887` and `888`)
 
 <hr>
