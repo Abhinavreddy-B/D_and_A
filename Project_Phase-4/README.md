@@ -10,10 +10,6 @@
 
 <hr>
 
-- `Note:` All these commands are tested on Ubuntu Version 20.04.3 LTS (Focal Fossa) 
-
-<hr>
-
 ### <ins>Commands to be executed:</ins>
 
 - Command 1 - enter 1
@@ -144,4 +140,80 @@
 
      If executed successfully , update player details in PLAYER table of the database with Base_price, Auctioned_price, CName, Fantasy_points, pname as inputs
 
-- Command 22 - enter 
+-   Command 22 - enter 22
+
+     ``Update team manager details``
+
+     If executed successfully , update team details of manager in TEAM_MANAGER table of the database with Manager_First_Name, Manager_Last_Name and Name as inputs
+
+-   Command 23 - enter 23
+
+     ``Update team details``
+
+     If executed successfully , update team details in TEAM table of the database with teamPlace, teamCards, teamMoneyLeft, teamBrandValue, teamFairPlayPoints, teamTotalPoints, tname and teamCoach as inputs
+
+-   Command 24 - enter 24
+
+     ``Deduct fair play points of team``
+
+     If executed successfully , fair play points of a team are deducted in TEAM table of the database with teamName as input
+
+-   Command 25 - enter 25
+
+     ``Update fixture details``
+
+     If executed successfully, result of a fixture is updated in FIXTURE table of the database with Date_Time, Venue and Result as input
+
+-   Command 26 - enter 26
+
+     ``Search for a player``
+
+     If executed successfully, details of a player is displayed from PLAYER table of the database with pname as input
+
+-   Command 27 - enter 27
+
+     ``Search for a fixture``
+
+     If executed successfully, details of all fixtures at a particular time is displayed from FIXTURE table of the database with Date_Time as input
+
+-   Command 28 - enter 28
+
+     ``Sorted list of teams``
+
+     If executed successfully, list of teams sorted according to Total_points is displayed from TEAM table of the database
+
+-   Command 29 - enter 29
+
+     ``Sorted list of players``
+
+     If executed successfully, list of players sorted according to Fantasy_points is displayed from PLAYER table of the database
+
+-   Command 30 - enter 30
+
+     ``Find partner``
+
+     If executed successfully, list of partners sponsoring a particular league is displayed from SPONSORS_LEAGUE table of the database with leagueNum as input
+
+-   Command 31 - enter 31
+
+     ``Tournament report``
+
+     If executed successfully, list of all fixtures in a season is displayed from FIXTURE table of the database with sno as input
+
+-   Command 32 - enter 32
+
+     ``Most Valuable Player``
+
+     If executed successfully, list of all players with highest fantasy points are displayed from PLAYER table of the database
+
+-   Command 33 - enter 33
+
+     ``Pitch Dependency Report``
+
+     If executed successfully, list of all teams with win rate > 70% in the home stadium are displayed
+
+<hr>
+
+- `Note:` All these commands are tested on Ubuntu Version 20.04.3 LTS (Focal Fossa) 
+
+<hr>
