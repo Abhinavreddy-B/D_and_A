@@ -709,7 +709,7 @@ def pitchDependencyReport():
         print("ERROR")
         print(">>>>>>>>>>>>>", e)
 
-def dispatch(ch):
+def dispatchAdmin(ch):
     """
     Function that maps helper functions to option entered
     """
@@ -784,6 +784,26 @@ def dispatch(ch):
     else:
         print("Error: Invalid Option")
 
+def dispatchUser(ch):
+    """
+    Function that maps helper functions to option entered
+    """
+
+    if (ch == 1):
+        playerSearch()
+    elif (ch == 2):
+        fixtureSearch()
+    elif (ch == 3):
+        teamSort()
+    elif (ch == 4):
+        playerSort()
+    elif (ch == 5):
+        partnerFind()
+    elif (ch == 6):
+        MVP()
+    
+    else:
+        print("Error: Invalid Option")
 
 # Global
 while(1):
@@ -799,7 +819,7 @@ while(1):
         con = pymysql.connect(host='localhost',
                               port=3306,
                               user="root",
-                              password="password",
+                              password="",
                               db='Project4',
                               cursorclass=pymysql.cursors.DictCursor)
         tmp = sp.call('clear', shell=True)
@@ -815,51 +835,73 @@ while(1):
             while(1):
                 tmp = sp.call('clear', shell=True)
 
-                print("1.  Insert Player")
-                print("2.  Insert Form of a Player")
-                print("3.  Insert Team")
-                print("4.  Insert Team Manager")
-                print("5.  Insert LEAGUE")
-                print("6.  Insert Fixture")
-                print("7.  Insert Commentator")
-                print("8.  Insert Umpire")
-                print("9.  Insert Partner")
-                print("10. Insert Partner_Type")
-                print("11. Insert Jersey")
-                print("12. Insert Award")
-                print("13. Insert Player_Sponsor")
-                print("14. Insert Team_Sponsor")
-                print("15. Insert League_Sponsor")
-                print("16. Insert Team PLAYS_IN Fixture")
-                print("17. Insert Player PLAYS_FOR Team IN Fixture OF League")
-                print("18. Delete Player Sponsor")
-                print("19. Delete Team Sponsor")
-                print("20. Delete League Sponsor")
-                print("21. Update Player details")
-                print("22. Update Team Manager details")
-                print("23. Update Team details")
-                print("24. Deduct fair play points of a team")
-                print("25. Update Fixture details")
-                print("26. Search Player by name")
-                print("27. Search Fixture by date-time")
-                print("28. Display all teams sorted in order of Total Points")
-                print("29. Display all players in order of their names")
-                print("30. Display all Sponsors sponsoring a League")
-                print("31. Display the results of all fixture in a given season")
-                print("32. Display Most Valuable Player(s)")
-                print("33. Display Pitch Dependency Report")
+                if username == "admin" and password == "admin":
+
+                    print("1.  Insert Player")
+                    print("2.  Insert Form of a Player")
+                    print("3.  Insert Team")
+                    print("4.  Insert Team Manager")
+                    print("5.  Insert LEAGUE")
+                    print("6.  Insert Fixture")
+                    print("7.  Insert Commentator")
+                    print("8.  Insert Umpire")
+                    print("9.  Insert Partner")
+                    print("10. Insert Partner_Type")
+                    print("11. Insert Jersey")
+                    print("12. Insert Award")
+                    print("13. Insert Player_Sponsor")
+                    print("14. Insert Team_Sponsor")
+                    print("15. Insert League_Sponsor")
+                    print("16. Insert Team PLAYS_IN Fixture")
+                    print("17. Insert Player PLAYS_FOR Team IN Fixture OF League")
+                    print("18. Delete Player Sponsor")
+                    print("19. Delete Team Sponsor")
+                    print("20. Delete League Sponsor")
+                    print("21. Update Player details")
+                    print("22. Update Team Manager details")
+                    print("23. Update Team details")
+                    print("24. Deduct fair play points of a team")
+                    print("25. Update Fixture details")
+                    print("26. Search Player by name")
+                    print("27. Search Fixture by date-time")
+                    print("28. Display all teams sorted in order of Total Points")
+                    print("29. Display all players in order of their names")
+                    print("30. Display all Sponsors sponsoring a League")
+                    print("31. Display the results of all fixture in a given season")
+                    print("32. Display Most Valuable Player(s)")
+                    print("33. Display Pitch Dependency Report")
+                    
+                    print("-1. Logout")
                 
-                print("-1. Logout")
-                
-                ch = int(input("Enter choice> "))
-                
-                tmp = sp.call('clear', shell=True)
-                
-                if ch == -1:
-                    exit()
+                    ch = int(input("Enter choice> "))
+                    
+                    tmp = sp.call('clear', shell=True)
+                    
+                    if ch == -1:
+                        exit()
+                    else:
+                        dispatchAdmin(ch)
+                        tmp = input("Enter any key to CONTINUE>")
+
                 else:
-                    dispatch(ch)
-                    tmp = input("Enter any key to CONTINUE>")
+                    print("1. Search Player by name")
+                    print("2. Search Fixture by date-time")
+                    print("3. Display all teams sorted in order of Total Points")
+                    print("4. Display all players in order of their names")
+                    print("5. Display all Sponsors sponsoring a League")
+                    print("6. Display Most Valuable Player(s)")
+                    
+                    print("-1. Logout")
+                
+                    ch = int(input("Enter choice> "))
+                    
+                    tmp = sp.call('clear', shell=True)
+                    
+                    if ch == -1:
+                        exit()
+                    else:
+                        dispatchUser(ch)
+                        tmp = input("Enter any key to CONTINUE>")
 
     except Exception as e:
         tmp = sp.call('clear', shell=True)
