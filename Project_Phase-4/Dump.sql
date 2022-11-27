@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.29, for Linux (x86_64)
 --
--- Host: localhost    Database: IPL_FANTASY_LEAGUE
+-- Host: localhost    Database: IPL
 -- ------------------------------------------------------
 -- Server version       8.0.29
 
@@ -498,4 +498,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-27  5:45:05
+-- Dump completed on 2022-11-27  7:02:31

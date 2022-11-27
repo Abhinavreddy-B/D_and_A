@@ -2,6 +2,65 @@ import subprocess as sp
 import pymysql
 import pymysql.cursors
 
+def display(output):
+
+    if (len(output) == 0):
+        return
+
+    maxLengths = {}
+    header = output[0].keys();
+
+    for i, val in enumerate(header):
+        maxLengths[i] = len(str(val))
+
+    for row in output:
+        for i, val in enumerate(row.values()):
+            maxLengths[i] = max(maxLengths[i], len(str(val)))
+
+    print('_', end='')
+    for i in range(len(header)):
+        for _ in range(maxLengths[i] + 2):
+            print('_', end = '')
+
+    print('_')
+    print('|', end='')
+
+    for i, val in enumerate(header):
+        print(val, end='')
+        for _ in range(maxLengths[i] - len(str(val)) + 2):
+            print(' ', end = '')
+
+    print('|')
+    print('‾', end='')
+
+    for i in range(len(header)):
+        for _ in range(maxLengths[i] + 2):
+            print('‾', end = '')
+
+    print('‾')
+    print('_', end='')
+
+    for i in range(len(header)):
+        for _ in range(maxLengths[i] + 2):
+            print('_', end = '')
+
+    print('_')
+
+    for i, row in enumerate(output):
+        print('|', end = '')
+        for i, val in enumerate(row.values()):
+            print(val, end = '')
+            for _ in range(maxLengths[i] - len(str(val)) + 2):
+                print(' ', end = '')
+        print('|')
+
+    print('‾', end='')
+    for i in range(len(header)):
+        for _ in range(maxLengths[i] + 2):
+            print('‾', end = '')
+    print('‾')
+
+
 def playerInsert():
     try:
         playerDetails = {}
@@ -19,6 +78,8 @@ def playerInsert():
         cur.execute(query)
         con.commit()
 
+        display(cur.fetchall())
+        
         print("Inserted player details into the database")
     
     except Exception as e:
@@ -38,7 +99,7 @@ def playerUpdate():
         playerDetails["Fantasy_points"] = int(input("Fantasy points: "))
         pname = input("Full name: ")
 
-        query = "UPDATE PLAYER SET Base_price = %d, Auctioned_price = %d, CName = '%s', Fantasy_points = %d WHERE Name='{pname}'" % (
+        query ="UPDATE PLAYER SET Base_price = %d, Auctioned_price = %d, CName = '%s', Fantasy_points = %d WHERE Name='{pname}'" % (
             playerDetails["Base_price"], playerDetails["Auctioned_price"], pname, playerDetails["CName"], playerDetails["Fantasy_points"])
 
         print(query)
@@ -57,11 +118,13 @@ def playerUpdate():
 def playerSearch():
     try:
         pname = input("Enter player name: ")
-        query = "SELECT * FROM PLAYER WHERE Name = '{pname}'"
+        query = f"SELECT * FROM PLAYER WHERE Name = '{pname}'"
 
         print(query)
         cur.execute(query)
         con.commit()
+        
+        display(cur.fetchall())
     
     except Exception as e:
         con.rollback()
@@ -71,11 +134,13 @@ def playerSearch():
 def playerSort():
     try:
         print("Sorting by player:")
-        query = "SELECT * FROM PLAYER ORDER BY Fantasy_points DESC"
+        query = f"SELECT * FROM PLAYER ORDER BY Fantasy_points DESC"
 
         print(query)
         cur.execute(query)
         con.commit()
+
+        display(cur.fetchall())
     
     except Exception as e:
         con.rollback()
@@ -147,7 +212,7 @@ def teamUpdate():
         tname = input("Team name: ")
         teamCoach = input("Coach name: ")
 
-        query = "UPDATE TEAM SET Place = {teamPlace}, RTM_Cards = {teamCards}, Money_Left = {teamMoneyLeft}, Brand_Value = {teamBrandValue}, Fair_play_points = {teamBrandValue}, Total_points = {teamTotalPoints}, Coach = {teamCoach} WHERE Name = {tname}"
+        query = f"UPDATE TEAM SET Place = {teamPlace}, RTM_Cards = {teamCards}, Money_Left = {teamMoneyLeft}, Brand_Value = {teamBrandValue}, Fair_play_points = {teamBrandValue}, Total_points = {teamTotalPoints}, Coach = {teamCoach}, Fair_play_points = {teamFairPlayPoints} WHERE Name = {tname}"
 
         print(query)
         cur.execute(query)
@@ -165,7 +230,7 @@ def teamUpdate():
 def deduct_fair_play_points():
     try:
         teamName = input("Enter the team of which the points have to be deducted: ")
-        query = "UPDATE TEAM SET Fair_play_points = Fair_play_points - 2 WHERE Name = {teamName}"
+        query = f"UPDATE TEAM SET Fair_play_points = Fair_play_points - 2 WHERE Name = {teamName}"
         print(query)
         cur.execute(query)
         con.commit()
@@ -179,11 +244,13 @@ def deduct_fair_play_points():
     
 def teamSort():
     try:
-        query = "SELECT * FROM TEAM GROUP BY Name ORDER BY Total_points"
+        query = f"SELECT * FROM TEAM GROUP BY Name ORDER BY Total_points"
         print(query)
         cur.execute(query)
         con.commit()
 
+        display(cur.fetchall())
+        
         print("Sorted list of teams")
 
     except Exception as e:
@@ -249,7 +316,7 @@ def leagueInsert():
         leagueDetails["Name"] = input("League name: ")
         leagueDetails["Season_Number"] = int(input("Season number: "))
 
-        query = "INSERT INTO PLAYER(Prize_Money, Runner_Up, Winner, Name, Season_Number) VALUES(%d, '%s', '%s', '%s', %d)" % (
+        query = "INSERT INTO LEAGUE(Prize_Money, Runner_Up, Winner, Name, Season_Number) VALUES(%d, '%s', '%s', '%s', %d)" % (
             leagueDetails["Prize_Money"], leagueDetails["Runner_Up"], leagueDetails["Winner"], leagueDetails["Name"], leagueDetails["Season_Number"])
 
         print(query)
@@ -305,7 +372,7 @@ def fixtureUpdate():
         con.commit()
 
         try:
-            query = "UPDATE TEAM SET Total_points = Total_points + 2 WHERE Name = '%s' AND Venue = '%s' AND Date_Time = '%s'" % (
+            query = f"UPDATE TEAM SET Total_points = Total_points + 2 WHERE Name = '%s' AND Venue = '%s' AND Date_Time = '%s'" % (
             fixtureDetails["Result"], fixtureDetails["Venue"], fixtureDetails["Date_Time"])
 
         except Exception as e:
@@ -329,7 +396,7 @@ def fixtureDelete():
         Date_Time = input("Provide time in yyyy-mm-dd HH:MM:SS format: ")
         Venue = input("Scheduled venue of fixture: ")
 
-        query = "DELETE FROM FIXTURE WHERE Date_Time = '{Date_Time}' AND Venue = '{Venue}'"
+        query = f"DELETE FROM FIXTURE WHERE Date_Time = '{Date_Time}' AND Venue = '{Venue}'"
         print(query)
         cur.execute(query)
         con.commit()
@@ -348,11 +415,13 @@ def fixtureSearch():
         print("Enter the details of the fixture:")
         Date_Time = input("Provide time in yyyy-mm-dd HH:MM:SS format: ")
 
-        query = "SELECT * FROM FIXTURE WHERE Date_Time = '{Date_Time}'"
+        query = f"SELECT * FROM FIXTURE WHERE Date_Time = '{Date_Time}'"
 
         print(query)
         cur.execute(query)
         con.commit()
+
+        display(cur.fetchall())
 
     except Exception as e:
         con.rollback()
@@ -415,11 +484,13 @@ def partnerFind():
         print("Enter the details of the League:")
         leagueNum = int(input("enter league Number:"))
 
-        query = "SELECT Name FROM SPONSORS_LEAGUE AS S, PARTNER AS P WHERE S.CIN = P.CIN AND S.Number = {leagueNum}"
+        query = f"SELECT Name FROM SPONSORS_LEAGUE AS S, PARTNER AS P WHERE S.CIN = P.CIN AND S.Number = {leagueNum}"
 
         print(query)
         cur.execute(query)
         con.commit()
+
+        display(cur.fetchall())
 
     except Exception as e:
         con.rollback()
@@ -528,7 +599,7 @@ def playerSponsorInsert():
         pcin = int(input("Enter CIN of sponsor: "))
         player = input("Whom is {pcin} sponsoring to?")
 
-        query = "INSERT INTO SPONSORS_PLAYER VALUES('{player}',{pcin})"
+        query = f"INSERT INTO SPONSORS_PLAYER VALUES('{player}',{pcin})"
         print(query)
         cur.execute(query)
         con.commit()
@@ -546,7 +617,7 @@ def playerSponsorDelete():
         pcin = int(input("Enter CIN of sponsor: "))
         player = input("Whom is {pcin} sponsoring to?")
 
-        query = "DELETE FROM SPONSORS_PLAYER WHERE Name='{player}' AND CIN={pcin}"
+        query = f"DELETE FROM SPONSORS_PLAYER WHERE Name='{player}' AND CIN={pcin}"
         print(query)
         cur.execute(query)
         con.commit()
@@ -562,9 +633,9 @@ def teamSponsorInsert():
     try:
         print("Enter the Sponsor, and which team they are sponsoring to:")
         pcin = int(input("Enter CIN of sponsor: "))
-        leaguesno = int(input("Which League is {pcin} sponsoring to?"))
+        tname = input(f"Which team is {pcin} sponsoring?")
 
-        query = "INSERT INTO SPONSORS_LEAGUE VALUES({leaguesno},{pcin})"
+        query = f"INSERT INTO SPONSORS_TEAM VALUES({tname},{pcin})"
         print(query)
         cur.execute(query)
         con.commit()
@@ -581,9 +652,9 @@ def teamSponsorDelete():
     try:
         print("Enter the Sponsor, and which team they are sponsoring to:")
         pcin = int(input("Enter CIN of sponsor: "))
-        tname = input("which team is {pcin} sponsoring to?")
+        tname = input(f"which team is {pcin} sponsoring to?")
 
-        query = "DELETE FROM SPONSORS_PLAYER WHERE Name='{tname}' AND CIN={pcin}"
+        query = f"DELETE FROM SPONSORS_TEAM WHERE Name='{tname}' AND CIN={pcin}"
         print(query)
         cur.execute(query)
         con.commit()
@@ -598,10 +669,10 @@ def teamSponsorDelete():
 def leagueSponsorInsert():
     try:
         print("Enter the Sponsor, and whom they are sponsoring to:")
-        pcin = int(input("Enter CIN of sponsor: "))
-        teamname = input("Which Team is {pcin} sponsoring to?")
+        pcin = int(input(f"Enter CIN of sponsor: "))
+        league = int(input(f"Which league is {pcin} sponsoring to?"))
 
-        query = "INSERT INTO SPONSORS_TEAM VALUES('{teamname}',{pcin})"
+        query = f"INSERT INTO SPONSORS_LEAGUE VALUES('{league}',{pcin})"
         print(query)
         cur.execute(query)
         con.commit()
@@ -617,9 +688,9 @@ def leagueSponsorInsert():
 def leagueSponsorDelete():
     try:
         pcin = int(input("Enter CIN of sponsor: "))
-        leagueno = int(input("Which league is {pcin} sponsoring to?"))
+        leagueno = int(input(f"Which league is {pcin} sponsoring to?"))
 
-        query = "DELETE FROM SPONSORS_LEAGUE WHERE Number = {leaguesno} AND CIN = {pcin}"
+        query = f"DELETE FROM SPONSORS_LEAGUE WHERE Number = {leagueno} AND CIN = {pcin}"
         print(query)
         cur.execute(query)
         con.commit()
@@ -637,7 +708,7 @@ def playsIn():
         tname = input("Enter Team Name:")
         dt = input("Provide date/time of the match'yyyy-mm-dd HH:MM:SS' (without the '') format: ")
         venue = input("Provide venue of the match")
-        query = "INSERT INTO PLAYS_IN VALUES('{tname}',{dt},'{venue}')"
+        query = f"INSERT INTO PLAYS_IN VALUES('{tname}',{dt},'{venue}')"
         print(query)
         cur.execute(query)
         con.commit()
@@ -653,13 +724,13 @@ def playsForInOf():
     try:
         print("Enter the respective details:")
         pname = input("Enter player Name:")
-        tname = input("Whom does {pname} Play for?")
+        tname = input(f"Whom does {pname} Play for?")
         print("Provide the following details about the match:")
         dt = input("1. Provide date/time of the match'yyyy-mm-dd HH:MM:SS' (without the '') format: ")
         venue = input("2. Provide venue of the match")
         Sno = int(input("In which Season Number does/did this match happen"))
         
-        query = "INSERT INTO PLAYS_FOR_IN_OF VALUES('{pname}','{tname}','{dt}','{venue}',{SNo})"
+        query = f"INSERT INTO PLAYS_FOR_IN_OF VALUES('{pname}','{tname}','{dt}','{venue}',{SNo})"
         
         print(query)
         cur.execute(query)
@@ -674,11 +745,13 @@ def playsForInOf():
 def tournamentReport():
     try:
         sno = int(input("Enter Season Number"))
-        query = "SELECT DISTINCT Date_time, Venue, Result, Match_No FROM FIXTURE NATURAL JOIN (SELECT * FROM PLAYS_FOR_IN_OF WHERE Season_Number = {sno}) AS N"
+        query = f"SELECT DISTINCT Date_time, Venue, Result, Match_No FROM FIXTURE NATURAL JOIN (SELECT * FROM PLAYS_FOR_IN_OF WHERE Season_Number = {sno}) AS N"
         
         print(query)
         cur.execute(query)
         con.commit()
+
+        display(cur.fetchall())
 
     except:
         con.rollback()
@@ -687,10 +760,12 @@ def tournamentReport():
 
 def MVP():
     try:
-        query = "SELECT Name FROM PLAYER WHERE Fantasy_points = (SELECT MAX(Fantasy_points) FROM PLAYER)"
+        query = f"SELECT Name FROM PLAYER WHERE Fantasy_points = (SELECT MAX(Fantasy_points) FROM PLAYER)"
         print(query)
         cur.execute(query)
         con.commit()
+
+        display(cur.fetchall())
 
     except:
         con.rollback()
@@ -699,11 +774,13 @@ def MVP():
 
 def pitchDependencyReport():
     try:
-        query = "SELECT Name FROM TEAM, FIXTURE WHERE Name = Result AND Place = Venue AND ((SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Result = Name) > (0.7 * (SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Venue = Place)))"
+        query = f"SELECT Name FROM TEAM, FIXTURE WHERE Name = Result AND Place = Venue AND ((SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Result = Name) > (0.7 * (SELECT COUNT(*) FROM TEAM, FIXTURE WHERE Venue = Place)))"
         print(query)
         cur.execute(query)
         con.commit()
 
+        display(cur.fetchall())
+            
     except:
         con.rollback()
         print("ERROR")
@@ -807,8 +884,6 @@ def dispatchUser(ch):
 
 # Global
 while(1):
-    tmp = sp.call('clear', shell=True)
-    
     # Can be skipped if you want to hardcode username and password
     username = input("Username: ")
     password = input("Password: ")
@@ -818,22 +893,17 @@ while(1):
         # Set host to the server's address if you don't want to use local SQL server 
         con = pymysql.connect(host='localhost',
                               port=3306,
-                              user="root",
-                              password="",
-                              db='Project4',
+                              user="abhinav",
+                              password="#Thalapathy67",
+                              db='IPL',
                               cursorclass=pymysql.cursors.DictCursor)
-        tmp = sp.call('clear', shell=True)
-
         if(con.open):
             print("Connected")
         else:
             print("Failed to connect")
 
-        tmp = input("Enter any key to CONTINUE>")
-
         with con.cursor() as cur:
             while(1):
-                tmp = sp.call('clear', shell=True)
 
                 if username == "admin" and password == "admin":
 
@@ -875,13 +945,11 @@ while(1):
                 
                     ch = int(input("Enter choice> "))
                     
-                    tmp = sp.call('clear', shell=True)
                     
                     if ch == -1:
                         exit()
                     else:
                         dispatchAdmin(ch)
-                        tmp = input("Enter any key to CONTINUE>")
 
                 else:
                     print("1. Search Player by name")
@@ -895,16 +963,11 @@ while(1):
                 
                     ch = int(input("Enter choice> "))
                     
-                    tmp = sp.call('clear', shell=True)
-                    
                     if ch == -1:
                         exit()
                     else:
                         dispatchUser(ch)
-                        tmp = input("Enter any key to CONTINUE>")
 
     except Exception as e:
-        tmp = sp.call('clear', shell=True)
         print(e)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
-        tmp = input("Enter any key to CONTINUE>")
