@@ -143,3 +143,5 @@
      ``Update player details``
 
      If executed successfully , update player details in PLAYER table of the database with Base_price, Auctioned_price, CName, Fantasy_points, pname as inputs
+
+- Command 22 - enter 

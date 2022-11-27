@@ -895,7 +895,7 @@ while(1):
                               port=3306,
                               user="abhinav",
                               password="#Thalapathy67",
-                              db='IPL',
+                              db='IPL_FANTASY_LEAGUE',
                               cursorclass=pymysql.cursors.DictCursor)
         if(con.open):
             print("Connected")
