@@ -203,7 +203,7 @@ def teamUpdate():
     try:
         teamDetails = {}
         print("Enter the new details of the team:")
-        teamPlace = input("Home town: ")
+        teamPlace = input("Home stadium: ")
         teamCards = int(input("Number of RTM Cards: "))
         teamMoneyLeft = int(input("Money Left: "))
         teamBrandValue = int(input("Brand Value: "))
@@ -596,8 +596,8 @@ def awardInsert():
 def playerSponsorInsert():
     try:
         print("Enter the Sponsor, and which league they are sponsoring to:")
+        player = input("Player name")
         pcin = int(input("Enter CIN of sponsor: "))
-        player = input("Whom is {pcin} sponsoring to?")
 
         query = f"INSERT INTO SPONSORS_PLAYER VALUES('{player}',{pcin})"
         print(query)
@@ -614,8 +614,8 @@ def playerSponsorInsert():
 def playerSponsorDelete():
     try:
         print("Enter the Sponsor, and which player they are sponsoring to:")
+        player = input("Player name")
         pcin = int(input("Enter CIN of sponsor: "))
-        player = input("Whom is {pcin} sponsoring to?")
 
         query = f"DELETE FROM SPONSORS_PLAYER WHERE Name='{player}' AND CIN={pcin}"
         print(query)
@@ -632,8 +632,8 @@ def playerSponsorDelete():
 def teamSponsorInsert():
     try:
         print("Enter the Sponsor, and which team they are sponsoring to:")
+        tname = input("Team name")
         pcin = int(input("Enter CIN of sponsor: "))
-        tname = input(f"Which team is {pcin} sponsoring?")
 
         query = f"INSERT INTO SPONSORS_TEAM VALUES({tname},{pcin})"
         print(query)
@@ -651,8 +651,8 @@ def teamSponsorInsert():
 def teamSponsorDelete():
     try:
         print("Enter the Sponsor, and which team they are sponsoring to:")
+        tname = input("Team name")
         pcin = int(input("Enter CIN of sponsor: "))
-        tname = input(f"which team is {pcin} sponsoring to?")
 
         query = f"DELETE FROM SPONSORS_TEAM WHERE Name='{tname}' AND CIN={pcin}"
         print(query)
@@ -669,8 +669,8 @@ def teamSponsorDelete():
 def leagueSponsorInsert():
     try:
         print("Enter the Sponsor, and whom they are sponsoring to:")
-        pcin = int(input(f"Enter CIN of sponsor: "))
-        league = int(input(f"Which league is {pcin} sponsoring to?"))
+        league = input("League number")
+        pcin = int(input("Enter CIN of sponsor: "))
 
         query = f"INSERT INTO SPONSORS_LEAGUE VALUES('{league}',{pcin})"
         print(query)
@@ -687,8 +687,8 @@ def leagueSponsorInsert():
 
 def leagueSponsorDelete():
     try:
+        leagueno = input("League number")
         pcin = int(input("Enter CIN of sponsor: "))
-        leagueno = int(input(f"Which league is {pcin} sponsoring to?"))
 
         query = f"DELETE FROM SPONSORS_LEAGUE WHERE Number = {leagueno} AND CIN = {pcin}"
         print(query)
@@ -935,7 +935,7 @@ while(1):
                     print("26. Search Player by name")
                     print("27. Search Fixture by date-time")
                     print("28. Display all teams sorted in order of Total Points")
-                    print("29. Display all players in order of their names")
+                    print("29. Display all players in order of their fantasy points")
                     print("30. Display all Sponsors sponsoring a League")
                     print("31. Display the results of all fixture in a given season")
                     print("32. Display Most Valuable Player(s)")
@@ -955,7 +955,7 @@ while(1):
                     print("1. Search Player by name")
                     print("2. Search Fixture by date-time")
                     print("3. Display all teams sorted in order of Total Points")
-                    print("4. Display all players in order of their names")
+                    print("4. Display all players in order of their fantasy points")
                     print("5. Display all Sponsors sponsoring a League")
                     print("6. Display Most Valuable Player(s)")
                     
