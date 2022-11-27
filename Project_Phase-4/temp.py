@@ -45,20 +45,19 @@ def playerUpdate():
         cur.execute(query)
         con.commit()
 
-        print("Update success")
+        print("Player details updated successfully")
     
     except Exception as e:
         con.rollback()
-        print("Failed Update")
+        print("Failed to update player details")
         print(">>>>>>>>>>>>>", e)
 
     return
 
 def playerSearch():
     try:
-        print("Searching By Player:")
-        pname = input("Enter Player Name")
-        query = "SELECT * FROM PLAYER WHERE Name='{pname}'"
+        pname = input("Enter player name: ")
+        query = "SELECT * FROM PLAYER WHERE Name = '{pname}'"
 
         print(query)
         cur.execute(query)
@@ -66,12 +65,12 @@ def playerSearch():
     
     except Exception as e:
         con.rollback()
-        print("Failed Search")
+        print("Failed to search the player")
         print(">>>>>>>>>>>>>", e)
 
 def playerSort():
     try:
-        print("Sorting By Player:")
+        print("Sorting by player:")
         query = "SELECT * FROM PLAYER ORDER BY Fantasy_points DESC"
 
         print(query)
@@ -80,7 +79,7 @@ def playerSort():
     
     except Exception as e:
         con.rollback()
-        print("Failed Sort")
+        print("Failed to sort")
         print(">>>>>>>>>>>>>", e)
         
 def formInsert():
@@ -101,7 +100,7 @@ def formInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert form details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -130,7 +129,7 @@ def teamInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert team details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -154,11 +153,11 @@ def teamUpdate():
         cur.execute(query)
         con.commit()
 
-        print("Inserted team details into the database")
+        print("Updated team details")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to update team details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -175,7 +174,7 @@ def deduct_fair_play_points():
 
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to deduct points")
         print(">>>>>>>>>>>>>", e)
     
 def teamSort():
@@ -185,11 +184,11 @@ def teamSort():
         cur.execute(query)
         con.commit()
 
-        print("List of teams")
+        print("Sorted list of teams")
 
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to obtain sorted list")
         print(">>>>>>>>>>>>>", e)
     
 def teamMgrInsert():
@@ -211,7 +210,7 @@ def teamMgrInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert team manager details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -235,7 +234,7 @@ def teamMgrUpdate():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to update team manager details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -261,7 +260,7 @@ def leagueInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert league details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -285,7 +284,7 @@ def fixtureInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert fixture details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -314,11 +313,11 @@ def fixtureUpdate():
             print("Failed to insert into database")
             print(">>>>>>>>>>>>>", e)   
 
-        print("Inserted fixture details into the database")
+        print("Updated the fixture details")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to update fixture details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -335,11 +334,11 @@ def fixtureDelete():
         cur.execute(query)
         con.commit()
 
-        print("Match removed sucessfully")
+        print("Fixture deleted sucessfully")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to delete fixture from database")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -355,11 +354,9 @@ def fixtureSearch():
         cur.execute(query)
         con.commit()
 
-        print("Found fixture")
-    
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to find the fixture")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -383,7 +380,7 @@ def commentatorInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert commentator details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -408,7 +405,7 @@ def umpireInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert umpire details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -424,11 +421,9 @@ def partnerFind():
         cur.execute(query)
         con.commit()
 
-        print("Success")
-    
     except Exception as e:
         con.rollback()
-        print("error")
+        print("Failed to find partner")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -451,7 +446,7 @@ def partnerInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert partner details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -474,7 +469,7 @@ def partnerTypeInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert partner type")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -493,11 +488,11 @@ def jerseyInsert():
         cur.execute(query)
         con.commit()
 
-        print("Inserted partner type details into the database")
+        print("Inserted jersey details into the database")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert jersey details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -522,7 +517,7 @@ def awardInsert():
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert award details")
         print(">>>>>>>>>>>>>", e)
 
     return
@@ -538,11 +533,11 @@ def playerSponsorInsert():
         cur.execute(query)
         con.commit()
 
-        print("Inserted partner type details into the database")
+        print("Inserted player partner details into the database")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert player partner details")
         print(">>>>>>>>>>>>>", e)
 
 def playerSponsorDelete():
@@ -556,11 +551,11 @@ def playerSponsorDelete():
         cur.execute(query)
         con.commit()
 
-        print("deleted Succesfull")
+        print("Successfully deleted player partner details")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to delete player partner details")
         print(">>>>>>>>>>>>>", e)
         
 def teamSponsorInsert():
@@ -574,11 +569,11 @@ def teamSponsorInsert():
         cur.execute(query)
         con.commit()
 
-        print("Inserted sponsor details of the league into the database")
+        print("Inserted team partner details into the database")
     
     except Exception as e:
         con.rollback()
-        print("Failed to delete")
+        print("Failed to delete team partner details")
         print(">>>>>>>>>>>>>", e)
         
 
@@ -593,11 +588,11 @@ def teamSponsorDelete():
         cur.execute(query)
         con.commit()
 
-        print("deleted succesful")
+        print("Successfully deleted team partner details")
     
     except Exception as e:
         con.rollback()
-        print("Failed to delete")
+        print("Failed to delete team partner details")
         print(">>>>>>>>>>>>>", e)
 
 def leagueSponsorInsert():
@@ -611,11 +606,11 @@ def leagueSponsorInsert():
         cur.execute(query)
         con.commit()
 
-        print("Inserted sponsor details of the league into the database")
+        print("Inserted league sponsor details into the database")
     
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to delete league sponsor details")
         print(">>>>>>>>>>>>>", e)
         
 
@@ -629,11 +624,11 @@ def leagueSponsorDelete():
         cur.execute(query)
         con.commit()
 
-        print("delete sucessful")
+        print("Successfully deleted league partner from the database")
     
     except Exception as e:
         con.rollback()
-        print("Failed to delete from database")
+        print("Failed to delete league sponsor details")
         print(">>>>>>>>>>>>>", e)
 
 def playsIn():
@@ -647,11 +642,11 @@ def playsIn():
         cur.execute(query)
         con.commit()
 
-        print("Inserted details into the database")
+        print("Inserted team and fixture details into the database")
 
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert team and fixture details")
         print(">>>>>>>>>>>>>", e)
 
 def playsForInOf():
@@ -673,7 +668,7 @@ def playsForInOf():
         print("Inserted details into the database")
     except:
         con.rollback()
-        print("Failed to insert into database")
+        print("Failed to insert details")
         print(">>>>>>>>>>>>>", e)
 
 def tournamentReport():
@@ -685,10 +680,9 @@ def tournamentReport():
         cur.execute(query)
         con.commit()
 
-        print("Success")
     except:
         con.rollback()
-        print("Failed")
+        print("ERROR")
         print(">>>>>>>>>>>>>", e)
 
 def MVP():
@@ -700,7 +694,7 @@ def MVP():
 
     except:
         con.rollback()
-        print("Failed to insert into database")
+        print("ERROR")
         print(">>>>>>>>>>>>>", e)
 
 def pitchDependencyReport():
@@ -712,7 +706,7 @@ def pitchDependencyReport():
 
     except:
         con.rollback()
-        print("Failed to insert into database")
+        print("ERROR")
         print(">>>>>>>>>>>>>", e)
 
 def dispatch(ch):
@@ -855,7 +849,7 @@ while(1):
                 print("32. Display Most Valuable Player(s)")
                 print("33. Display Pitch Dependency Report")
                 
-                print("-1.Logout")
+                print("-1. Logout")
                 
                 ch = int(input("Enter choice> "))
                 

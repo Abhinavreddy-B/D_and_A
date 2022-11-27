@@ -202,12 +202,12 @@ INSERT INTO FIXTURE VALUES ('2022-03-26 19:30:00.000','Chepauk Stadium','Kolkata
 ('2022-05-08 15:30:00.000','Chinnaswamy Stadium','Royal Challengers Bangalore',54), -- RCB vs 
 ('2022-05-07 19:30:00.000','Wankhede Stadium','Mumbai Indians',51), -- MI vs 
 ('2022-04-15 19:30:00.000','Narendra Modi Stadium','Sunrisers Hyderabad',25), -- SRH 
-('2022-04-21 19:30:00.000','Chepauk Stadium', 'Chennai Super Kings',33); -- CSK vs 
+('2022-04-21 19:30:00.000','Chepauk Stadium', 'Chennai Super Kings',33), -- CSK vs 
 ('2022-04-09 15:30:00.000','Mohali Stadium','Rajasthan Royals',12), -- PBKS VS RR
-('2022-03-26 15:30:00.000','Feroz Shah Kotla Ground','Delhi Capitals',19), -- DC vs SRH
+('2022-03-26 15:30:00.000','Feroz Shah Kotla Ground','Delhi Capitals',19), -- DC vs SRH done
 ('2022-04-28 19:30:00.000','Rajiv Gandhi Stadium','Sunrisers Hyderabad',7), -- SRH vs RCB
-('2022-05-24 15:30:00.000','Sawai Mansingh Stadium','Gujarat Titans',29), -- GT vs RR
-('2022-05-12 19:30:00.000','Sardar Vallabhbhai Patel Stadium','Lucknow Super Giants',36), -- LSG vs MI
+('2022-05-24 15:30:00.000','Sawai Mansingh Stadium','Gujarat Titans',29), -- GT vs RR done 14
+('2022-05-12 19:30:00.000','Sardar Vallabhbhai Patel Stadium','Lucknow Super Giants',36), -- LSG vs MI done
 ('2022-05-17 19:30:00.000','Eden Gardens','Kolkata Knight Riders',4); -- KKR vs LSG
 
 
@@ -270,11 +270,20 @@ INSERT INTO PLAYS_IN VALUES ('Kolkata Knight Riders','2022-03-26 19:30:00.000','
 ('Mumbai Indians','2022-05-07 19:30:00.000','Wankhede Stadium'),
 ('Sunrisers Hyderabad','2022-04-15 19:30:00.000','Narendra Modi Stadium'),
 ('Delhi Capitals','2022-03-26 15:30:00.000','Feroz Shah Kotla Ground'),
-('Sunrisers Hyderabad',)
+('Sunrisers Hyderabad','2022-03-26 15:30:00.000','Feroz Shah Kotla Ground'),
+('Gujarat Titans','2022-05-24 15:30:00.000','Sawai Mansingh Stadium'),
+('Rajasthan Royals','2022-05-24 15:30:00.000','Sawai Mansingh Stadium'),
+('Lucknow Super Giants','2022-05-12 19:30:00.000','Sardar Vallabhbhai Patel Stadium'),
+('Mumbai Indians','2022-05-12 19:30:00.000','Sardar Vallabhbhai Patel Stadium'),
 ('Chennai Super Kings','2022-04-21 19:30:00.000','Chepauk Stadium');
 
 INSERT INTO PLAYS_FOR_IN_OF VALUES  ('Andre Russell','Kolkata Knight Riders','2022-03-26 19:30:00.000','Chepauk Stadium',3),
 ('Virat Kohli','Royal Challengers Bangalore','2022-05-08 15:30:00.000','Chinnaswamy Stadium',7),
+('Faf Du Plessis','Royal Challengers Bangalore','2022-05-08 15:30:00.000','Chinnaswamy Stadium',7),
 ('Rohit Sharma','Mumbai Indians','2022-05-07 19:30:00.000','Wankhede Stadium',12),
 ('David Warner','Sunrisers Hyderabad','2022-04-15 19:30:00.000','Narendra Modi Stadium',15),
+('Rashid Khan','Gujarat Titans','2022-05-24 15:30:00.000','Sawai Mansingh Stadium',14),
+('Hardik Pandya','Gujarat Titans','2022-05-24 15:30:00.000','Sawai Mansingh Stadium',14),
+('Shreyas Iyer','Kolkata Knight Riders','2022-03-26 19:30:00.000','Chepauk Stadium',3),
+('Kane Williamson','Sunrisers Hyderabad','2022-04-15 19:30:00.000','Narendra Modi Stadium',15),
 ('MS Dhoni','Chennai Super Kings','2022-04-21 19:30:00.000','Chepauk Stadium',11);
