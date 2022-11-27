@@ -290,8 +290,8 @@ def teamMgrUpdate():
         teamMgrDetails["Manager_Last_Name"] = input("Last name of the manager: ")
         teamMgrDetails["Name"] = input("Name of the partner the person is manager of: ")
 
-        query = "UPDATE TEAM_MANAGER SET Name = '%s' WHERE Manager_First_Name = '%s' AND Manager_Last_Name = '%s'" % (
-            teamMgrDetails["Name"], teamMgrDetails["Manager_First_Name"], teamMgrDetails["Manager_Last_Name"])
+        query = "UPDATE TEAM_MANAGER SET Manager_First_Name = '%s' AND Manager_Last_Name = '%s' WHERE Name = '%s'" % (
+            teamMgrDetails["Manager_First_Name"], teamMgrDetails["Manager_Last_Name"], teamMgrDetails["Name"])
 
         print(query)
         cur.execute(query)
