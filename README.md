@@ -13,7 +13,7 @@ This repo contains the solutions for assignments/projects given to us at IIIT Hy
     * `Phase 3`: Relational model
     * `phase 4`: Python CLI
 
-# Credits:
-* Gnana Prakash Punnavajhala - [Github](https://github.com/GnanaPrakashSG2004)
-* Myself :) - [Github](https://github.com/Abhinavreddy-B)
-* Rohit Gowlapalli - [Github](https://github.com/ROHIT32767)
+# Contributors:
+* [Gnana Prakash Punnavajhala](https://github.com/GnanaPrakashSG2004)
+* [Abhinav Reddy Boddu](https://github.com/Abhinavreddy-B)
+* [Rohit Gowlapalli](https://github.com/ROHIT32767)
